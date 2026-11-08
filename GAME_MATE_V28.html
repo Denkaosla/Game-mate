@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>GAME MATE — Trouve ta squad</title>
+  <style>
+ :root{--bg:#0b0b0f;--panel:#141419;--panel2:#1c1c23;--line:#2c2c35;--text:#f5f4f6;--muted:#9a98a3;--red:#ef3441;--red2:#a51e2a;--green:#50d69a}
+/* Événement saisonnier GAME MATE — WINTER RAID */
+body.gm-theme-winter-raid{--bg:#07121c;--panel:#0d202b;--panel2:#123140;--line:#245263;--text:#effaff;--muted:#a8c6d2;--red:#39c6d8;--red2:#167e9a;background:radial-gradient(ellipse at 15% 0%,#1c668855,transparent 42%),radial-gradient(ellipse at 90% 25%,#8a243c55,transparent 38%),linear-gradient(145deg,#06111c,#102b3b 55%,#190f27)!important;background-attachment:fixed!important}
+body.gm-theme-winter-raid:before{content:"❄   ✦       ❄       ✧       ❄    ✦      ❄";position:fixed;inset:0;pointer-events:none;z-index:0;color:#d9f8ff55;font-size:clamp(18px,3vw,34px);letter-spacing:2vw;line-height:18vh;overflow:hidden;white-space:normal;text-shadow:0 0 12px #8deaff;animation:gmSnowDrift 18s linear infinite}
+body.gm-theme-winter-raid .topbar{background:#061723ed;border-bottom-color:#28718a}body.gm-theme-winter-raid .brand-mark{background:linear-gradient(135deg,#20bcd0,#c52f55);box-shadow:0 0 24px #27cde477}body.gm-theme-winter-raid .hero{border-color:#26768b;background:radial-gradient(ellipse at 85% 15%,#20a9c466,transparent 45%),radial-gradient(ellipse at 10% 100%,#a52d4c55,transparent 40%),linear-gradient(120deg,#102c3c,#0a1725 65%)}body.gm-theme-winter-raid .hero h1 span,body.gm-theme-winter-raid .red{color:#53d9e9}body.gm-theme-winter-raid .btn-red{background:linear-gradient(110deg,#19a9c2,#b52d55)}body.gm-theme-winter-raid .panel,body.gm-theme-winter-raid .shop-card,body.gm-theme-winter-raid .clan-card{box-shadow:0 8px 28px #020a1280;border-color:#245365}body.gm-theme-winter-raid .tag{background:#123e50;color:#a8f4ff}
+@keyframes gmSnowDrift{0%{transform:translateY(-8%)}100%{transform:translateY(8%)}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 Inter,system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.ambient{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 80% 0%,#39121955,transparent 38%),radial-gradient(ellipse at 0% 80%,#2b111b33,transparent 35%);z-index:-1}
+.topbar{height:76px;position:sticky;top:0;z-index:20;background:#0c0c10eF;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 3.5vw;gap:18px}.brand{display:flex;align-items:center;gap:10px;color:white;text-decoration:none;font-weight:900;letter-spacing:.5px;font-size:18px;white-space:nowrap}.red{color:var(--red)}.brand-mark{display:grid;place-items:center;background:var(--red);width:34px;height:34px;border-radius:10px;font-family:"Barlow Condensed";font-size:23px;box-shadow:0 5px 24px #ef344155}.nav-link{border:0;background:none;color:#aaa8b2;padding:10px 9px;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap}.nav-link:hover,.nav-link.active{color:white;background:#292027}.top-actions{display:flex;align-items:center;gap:9px}.icon-btn,.mobile-toggle{position:relative;background:#1b1b22;border:1px solid var(--line);color:white;width:38px;height:38px;border-radius:10px;font-size:22px}.count-badge,.dot{position:absolute;background:var(--red);color:white;border-radius:20px;font-size:10px;padding:1px 5px;top:-5px;right:-5px}.dot{width:8px;height:8px;padding:0}.hidden{display:none!important}.btn{border:0;border-radius:9px;padding:11px 16px;font-weight:800;font-size:12px;letter-spacing:.2px}.btn-red{background:var(--red);color:white;box-shadow:0 6px 20px #ef344128}.btn-red:hover{background:#ff4a56;transform:translateY(-1px)}.btn-outline{background:transparent;border:1px solid #484650;color:white}.btn-glass{background:#ffffff12;border:1px solid #ffffff24;color:white}.user-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#1b1b22;color:white;border-radius:30px;padding:5px 11px 5px 5px;font-weight:700;font-size:12px}.user-chip span:first-child{display:grid;place-items:center;width:27px;height:27px;background:#64212b;border-radius:50%}.mobile-toggle{display:none}
+.shell{width:min(1240px,93vw);margin:auto}.page{display:none;padding:36px 0 70px}.page.active{display:block}.hero{position:relative;min-height:440px;display:flex;align-items:center;overflow:hidden;padding:54px 5.5%;border:1px solid #4a2029;border-radius:22px;background:radial-gradient(ellipse at 85% 20%,#8b202d80,transparent 42%),linear-gradient(120deg,#1b1419,#101015 65%);margin:28px 0 48px}.hero-copy{position:relative;z-index:2;max-width:600px}.eyebrow{font-size:10px;letter-spacing:2.2px;color:#ff7a83;font-weight:800}.pulse{display:inline-block;width:7px;height:7px;background:#ff535d;border-radius:50%;margin-right:7px;box-shadow:0 0 12px #ff535d}.hero h1,.page-intro h1{font:900 clamp(48px,7vw,86px)/.88 "Barlow Condensed",Impact,sans-serif;letter-spacing:.5px;margin:19px 0}.hero h1 span{color:var(--red)}.hero p,.page-intro p{color:#b1aeb8;max-width:520px}.hero-actions{display:flex;gap:10px;margin-top:25px;flex-wrap:wrap}.hero-stats{display:flex;gap:35px;margin-top:35px}.hero-stats b{display:block;font:800 24px "Barlow Condensed"}.hero-stats small{font-size:9px;letter-spacing:1.7px;color:var(--muted)}.hero-art{position:absolute;right:4%;top:0;width:42%;height:100%;display:grid;place-items:center}.hero-emblem{font:900 100px "Barlow Condensed";letter-spacing:-8px;color:#ffffff10;text-shadow:0 0 50px #ff314144;transform:rotate(-9deg)}.hero-emblem span{color:#ed344188}.orbit{position:absolute;border:1px solid #ff536033;border-radius:50%;transform:rotate(-28deg)}.orbit-a{width:330px;height:180px}.orbit-b{width:430px;height:240px}.float-tag{position:absolute;background:#211b22;border:1px solid #5b3038;border-radius:7px;padding:8px 12px;font-size:9px;font-weight:900;letter-spacing:1.5px;box-shadow:0 10px 30px #0008}.tag-one{top:24%;right:7%}.tag-two{bottom:22%;left:3%}
+.section-heading{display:flex;justify-content:space-between;align-items:end;margin:35px 0 15px}.section-heading h2,.page-intro h1{margin-bottom:0}.section-heading h2{font:700 30px "Barlow Condensed"}.text-btn{background:none;border:0;color:#ff7079;font-size:12px;font-weight:800}.page-intro{margin:12px 0 28px}.page-intro h1{font-size:clamp(42px,6vw,65px);margin:8px 0}.filter-bar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.filter-bar{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end}.field{display:block;width:100%;background:#0c0c11;border:1px solid #34343e;color:white;border-radius:8px;padding:11px;margin-top:5px;outline:none}.field:focus{border-color:#b93440;box-shadow:0 0 0 3px #ef34411b}label{display:block;color:#c6c3cb;font-size:11px;font-weight:700}.result-line,.panel-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.muted,.hint{color:var(--muted)}.player-grid,.clip-grid,.clan-grid,.shop-grid,.library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.player-card,.clip-card,.clan-card,.shop-card,.library-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden}.player-banner{height:88px;background:linear-gradient(120deg,#3b141d,#24202b);padding:17px;display:flex;justify-content:space-between;align-items:start}.avatar{width:47px;height:47px;border-radius:14px;background:#7b2733;display:grid;place-items:center;font:800 24px "Barlow Condensed";border:2px solid #ffffff22}.player-info{padding:14px}.player-info h3,.panel h3{margin:0 0 5px}.tag-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.tag{font-size:10px;background:#322027;color:#ff9ca3;padding:4px 8px;border-radius:20px}.card-actions{display:flex;gap:8px;margin-top:13px}.card-actions button{flex:1}.small-btn{background:#28242b;border:1px solid #45404a;color:white;border-radius:7px;padding:7px 9px;font-size:11px;font-weight:700}.empty-state{padding:28px;text-align:center;color:var(--muted);background:#141419;border:1px dashed #35333d;border-radius:12px;grid-column:1/-1}.two-col,.profile-layout,.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel-head{margin:0 0 13px}.panel-head h3{margin:0}.stack{display:grid;gap:9px}.list-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;background:#1b1b22;border:1px solid #30303a;border-radius:9px}.list-main{min-width:0}.list-main b{display:block}.list-main small{color:var(--muted)}.form-panel{display:grid;gap:13px}.form-row{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.form-row label{flex:1;min-width:150px}.profile-preview{text-align:center;padding:28px}.big-avatar{width:90px;height:90px;margin:0 auto 13px;border-radius:25px;background:linear-gradient(140deg,#b82a39,#3a1721);display:grid;place-items:center;font:900 45px "Barlow Condensed"}.level-card{margin-top:18px;padding:14px;background:#21191f;border-radius:10px;display:flex;justify-content:space-around;align-items:center}.level-card span,.level-card small{font-size:10px;color:var(--muted)}.level-card b{font:800 28px "Barlow Condensed";color:#ff6872}.clip-card video{width:100%;aspect-ratio:16/9;background:#08080a;object-fit:cover}.clip-meta{padding:12px}.clip-meta h3{font-size:14px;margin:0}.clan-card,.shop-card,.library-card{padding:17px}.clan-icon,.shop-icon{font-size:28px;margin-bottom:10px}.shop-balance{background:linear-gradient(100deg,#401820,#1a171e);border:1px solid #672b35;padding:17px 20px;border-radius:12px;margin-bottom:16px}.shop-balance b{font:800 30px "Barlow Condensed";color:#ff6d77;margin-left:12px}.shop-balance span{font-size:9px;letter-spacing:2px;color:#c8a5a9}.status-pill{font-size:10px;color:#ffb4b8}.status-pill.ok{color:var(--green)}.admin-warning{background:#2b1d13;border:1px solid #6d4824;color:#f5c58b;padding:13px;border-radius:9px;margin-bottom:14px;font-size:12px}.footer{border-top:1px solid var(--line);padding:25px 0;margin-top:45px;display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.brand-mini{font-weight:900;color:white}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#24242c;border:1px solid #55515c;padding:11px 17px;border-radius:9px;z-index:60;box-shadow:0 10px 40px #0009}.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:15px}.modal-backdrop{position:absolute;inset:0;background:#000b;backdrop-filter:blur(6px)}.modal-card{position:relative;width:min(430px,100%);padding:28px;background:#17171d;border:1px solid #49404a;border-radius:16px;box-shadow:0 30px 100px #000b}.modal-card h2{font:700 32px "Barlow Condensed";margin:8px 0}.modal-card form{display:grid;gap:12px;margin-top:20px}.modal-close{position:absolute;right:15px;top:12px;background:none;border:0;color:white;font-size:25px}.full-btn{width:100%}.centered{display:block;margin:15px auto 0}.form-message{font-size:12px;color:#ff9da4}.skeleton{height:190px;border-radius:12px;background:linear-gradient(90deg,#19191f,#29242b,#19191f);background-size:200% 100%;animation:shimmer 1.5s infinite}@keyframes shimmer{to{background-position:-200% 0}}
+.chat-layout{display:grid;grid-template-columns:minmax(230px, .8fr) minmax(0,2fr);gap:14px}.chat-sidebar,.chat-main{min-height:430px}.chat-threads{display:grid;gap:8px}.chat-thread{width:100%;text-align:left;background:#1b1b22;border:1px solid #30303a;color:white;border-radius:9px;padding:12px;cursor:pointer}.chat-thread.active{border-color:#b93440;background:#2b1b22}.chat-thread small{display:block;color:var(--muted);margin-top:4px}.chat-messages{height:300px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:12px;background:#101015;border:1px solid var(--line);border-radius:10px}.chat-bubble{max-width:82%;align-self:flex-start;background:#25232b;border:1px solid #38343f;border-radius:12px 12px 12px 3px;padding:9px 12px;white-space:pre-wrap;overflow-wrap:anywhere}.chat-bubble.mine{align-self:flex-end;background:#48202a;border-color:#74313e;border-radius:12px 12px 3px 12px}.chat-bubble small{display:block;color:#c0b8c2;font-size:10px;margin-top:5px}.chat-compose{display:flex;gap:8px;margin-top:10px}.chat-compose .field{margin:0}.chat-compose button{white-space:nowrap}@media(max-width:760px){.chat-layout{grid-template-columns:1fr}.chat-sidebar{min-height:0}.chat-messages{height:260px}}
+@media(max-width:1050px){.nav-link{padding:8px 5px;font-size:10px}.topbar{padding:0 2vw;gap:8px}.player-grid,.clip-grid,.clan-grid,.shop-grid,.library-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.topbar{height:65px}.mobile-toggle{display:block}.topbar nav{display:none;position:absolute;top:64px;left:0;right:0;background:#111116;border-bottom:1px solid var(--line);padding:12px;flex-wrap:wrap}.topbar nav.open{display:flex}.nav-link{font-size:11px;padding:9px}.hero{min-height:420px;padding:35px 7%}.hero-art{opacity:.35;width:70%;right:-15%}.hero h1{font-size:60px}.filter-bar{grid-template-columns:1fr 1fr}.filter-bar button{grid-column:1/-1}.two-col,.profile-layout,.admin-grid{grid-template-columns:1fr}.form-row{display:grid;grid-template-columns:1fr}.form-row label{min-width:0}.player-grid,.clip-grid,.clan-grid,.shop-grid,.library-grid{grid-template-columns:1fr}.footer{flex-wrap:wrap;gap:10px}.result-line{align-items:start;gap:8px;flex-direction:column}}
+
+  .clan-danger{border-color:#7b3038!important;color:#ff9aa1!important}.clan-danger:hover{background:#4a1e25!important;border-color:#b9424e!important}</style>
+<style>
+
+/* GAME MATE — thème complet NEON CYBER */
+body.gm-theme-cyber {
+  --bg:#080817; --panel:rgba(15,17,43,.88); --panel2:#171a42; --line:#343a79;
+  --text:#f3f4ff; --muted:#a8add2; --red:#a855f7; --red2:#6d28d9; --green:#4ee7d2;
+  background:
+    radial-gradient(ellipse at 12% 12%,rgba(0,229,255,.18),transparent 34%),
+    radial-gradient(ellipse at 88% 5%,rgba(168,85,247,.25),transparent 38%),
+    radial-gradient(ellipse at 55% 95%,rgba(37,99,235,.17),transparent 42%),
+    linear-gradient(135deg,#070817 0%,#10102b 48%,#080817 100%);
+  background-attachment:fixed;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+}
+body.gm-theme-cyber .ambient {
+  background:radial-gradient(ellipse at 80% 0%,#8b5cf655,transparent 40%),radial-gradient(ellipse at 0% 80%,#06b6d433,transparent 38%);
+  opacity:.9;
+}
+body.gm-theme-cyber .topbar {
+  background:rgba(8,9,29,.86); border-bottom-color:#42468a;
+  box-shadow:0 8px 35px #05061799;
+}
+body.gm-theme-cyber .brand, body.gm-theme-cyber .nav-link,
+body.gm-theme-cyber .user-chip, body.gm-theme-cyber .icon-btn,
+body.gm-theme-cyber .mobile-toggle { color:#f4f3ff; }
+body.gm-theme-cyber .brand-mark {
+  background:linear-gradient(135deg,#06d9f2,#9b5cff); color:#080817;
+  box-shadow:0 0 22px #06d9f277;
+}
+body.gm-theme-cyber .red, body.gm-theme-cyber .hero h1 span {color:#38e8f5}
+body.gm-theme-cyber .nav-link:hover, body.gm-theme-cyber .nav-link.active {
+  color:#fff; background:linear-gradient(100deg,#7137c955,#06b6d433);
+  box-shadow:inset 0 0 0 1px #8b78ed77,0 0 18px #7c3aed33;
+}
+body.gm-theme-cyber .btn-red {
+  background:linear-gradient(110deg,#06b6d4,#8b5cf6); color:#fff;
+  box-shadow:0 0 22px #6366f166;
+}
+body.gm-theme-cyber .btn-red:hover {background:linear-gradient(110deg,#22d3ee,#a78bfa)}
+body.gm-theme-cyber .btn-outline, body.gm-theme-cyber .btn-glass,
+body.gm-theme-cyber .icon-btn, body.gm-theme-cyber .mobile-toggle {
+  border:1px solid #5963b4; background:rgba(28,31,75,.72); color:#f4f3ff;
+}
+body.gm-theme-cyber .user-chip, body.gm-theme-cyber .panel,
+body.gm-theme-cyber .filter-bar, body.gm-theme-cyber .player-card,
+body.gm-theme-cyber .clip-card, body.gm-theme-cyber .clan-card,
+body.gm-theme-cyber .shop-card, body.gm-theme-cyber .library-card {
+  background:linear-gradient(145deg,rgba(22,25,62,.94),rgba(12,14,39,.94));
+  border-color:#414b91; box-shadow:0 10px 30px #02041366;
+}
+body.gm-theme-cyber .hero {
+  border-color:#5260bb;
+  background:radial-gradient(ellipse at 85% 20%,#8b5cf677,transparent 43%),radial-gradient(ellipse at 12% 85%,#06b6d455,transparent 45%),linear-gradient(120deg,#111437,#090b20 68%);
+  box-shadow:0 0 38px #4338ca33,inset 0 0 45px #06b6d411;
+}
+body.gm-theme-cyber .hero h1, body.gm-theme-cyber .page-intro h1,
+body.gm-theme-cyber .section-heading h2, body.gm-theme-cyber .modal-card h2 {
+  font-family:"Trebuchet MS",Arial,sans-serif; letter-spacing:-1.2px;
+}
+body.gm-theme-cyber .eyebrow {color:#67e8f9}
+body.gm-theme-cyber .pulse {background:#22d3ee;box-shadow:0 0 14px #22d3ee}
+body.gm-theme-cyber .hero-emblem {color:#ffffff16;text-shadow:0 0 55px #8b5cf6aa}
+body.gm-theme-cyber .hero-emblem span {color:#22d3ee99}
+body.gm-theme-cyber .orbit {border-color:#7c8aff55}
+body.gm-theme-cyber .float-tag, body.gm-theme-cyber .list-row,
+body.gm-theme-cyber .chat-thread, body.gm-theme-cyber .chat-bubble {
+  background:rgba(34,39,91,.78); border-color:#4652a0; color:#f5f4ff;
+}
+body.gm-theme-cyber .chat-thread.active {background:#3b2874;border-color:#a78bfa}
+body.gm-theme-cyber .chat-messages {background:#090b20;border-color:#39427f}
+body.gm-theme-cyber .chat-bubble.mine {background:#3c2874;border-color:#8b5cf6}
+body.gm-theme-cyber .field {background:#090b20;border-color:#424b91;color:#fff}
+body.gm-theme-cyber .field:focus {border-color:#22d3ee;box-shadow:0 0 0 3px #22d3ee22}
+body.gm-theme-cyber label, body.gm-theme-cyber .text-btn {color:#a5f3fc}
+body.gm-theme-cyber .tag {background:#29245b;color:#c4b5fd;border:1px solid #6256b0}
+body.gm-theme-cyber .player-banner {background:linear-gradient(120deg,#164e63,#312e81)}
+body.gm-theme-cyber .avatar, body.gm-theme-cyber .big-avatar {background:linear-gradient(140deg,#0891b2,#7c3aed);border-color:#67e8f9}
+body.gm-theme-cyber .level-card, body.gm-theme-cyber .shop-balance {
+  background:linear-gradient(110deg,#172554,#312e81);border:1px solid #5963b4;
+}
+body.gm-theme-cyber .shop-balance b, body.gm-theme-cyber .level-card b {color:#67e8f9}
+body.gm-theme-cyber .small-btn {background:#22265b;border-color:#5963b4;color:#f4f3ff}
+body.gm-theme-cyber .small-btn:hover {background:#373080;border-color:#a78bfa}
+body.gm-theme-cyber .footer {border-color:#343a79}
+body.gm-theme-cyber .modal-card {background:#111437;border-color:#5963b4}
+body.gm-theme-cyber .toast {background:#171a42;border-color:#5963b4;color:#fff}
+body.gm-theme-cyber .status-pill.ok {color:#5eead4}
+.gm-theme-card-art {height:132px;border-radius:10px;margin:-2px -2px 13px;overflow:hidden;position:relative;background:radial-gradient(circle at 75% 30%,#22d3ee88,transparent 27%),radial-gradient(circle at 25% 80%,#8b5cf688,transparent 35%),linear-gradient(125deg,#080817,#172554 55%,#312e81);border:1px solid #5963b4}
+.gm-theme-card-art:before,.gm-preview-site:before {content:"";position:absolute;inset:0;background:repeating-linear-gradient(120deg,transparent 0 25px,#ffffff0a 26px 27px);pointer-events:none}
+.gm-theme-card-art strong {position:absolute;left:15px;bottom:12px;font:900 25px "Trebuchet MS",Arial,sans-serif;letter-spacing:2px;color:white;text-shadow:0 0 18px #22d3ee}
+.gm-theme-card-art span {position:absolute;right:13px;top:13px;color:#a5f3fc;font-size:10px;letter-spacing:2px}
+.gm-theme-preview-modal {width:min(650px,100%);max-height:92vh;overflow:auto}
+.gm-preview-site {position:relative;overflow:hidden;border:1px solid #5963b4;border-radius:13px;padding:14px;background:radial-gradient(ellipse at 80% 0%,#8b5cf655,transparent 45%),linear-gradient(135deg,#080817,#15163b);color:#f5f4ff;box-shadow:0 0 30px #4338ca33}
+.gm-preview-nav {display:flex;align-items:center;gap:15px;flex-wrap:wrap;padding:8px 4px 14px;border-bottom:1px solid #4652a0;font-size:10px;color:#c4b5fd}
+.gm-preview-nav b {font-size:14px;color:white;margin-right:auto}.gm-preview-nav b span {color:#22d3ee}
+.gm-preview-nav .active {padding:6px 9px;border-radius:6px;background:#49358b;color:white}
+.gm-preview-hero {padding:28px 18px 24px;background:linear-gradient(120deg,#111437cc,#090b20aa);margin-top:12px;border:1px solid #414b91;border-radius:10px}
+.gm-preview-hero small,.gm-preview-panels small {color:#67e8f9;letter-spacing:2px;font-size:9px}
+.gm-preview-hero h3 {font-size:clamp(25px,6vw,42px);line-height:1.02;margin:12px 0;font-family:"Trebuchet MS",Arial,sans-serif}
+.gm-preview-hero h3 em {font-style:normal;color:#22d3ee}
+.gm-preview-hero p {color:#b9c1ef;font-size:12px}
+.gm-preview-button {border:0;border-radius:6px;padding:10px 14px;color:white;font-weight:900;background:linear-gradient(110deg,#06b6d4,#8b5cf6);font-size:10px}
+.gm-preview-panels {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.gm-preview-panels div {display:grid;gap:6px;padding:12px;border:1px solid #414b91;border-radius:9px;background:#15183c}
+.gm-preview-panels b {font-size:12px}.gm-preview-panels span {font-size:9px;color:#a5f3fc;letter-spacing:1px}
+.gm-preview-actions {display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:15px}
+.gm-preview-note {font-size:10px;color:#a8add2;text-align:center;margin-bottom:0}
+@media(max-width:520px){.gm-preview-panels{grid-template-columns:1fr}.gm-preview-nav{gap:8px}}
+
+</style>
+<style id="gm-void-ocean-theme">
+/* VOID OCEAN — thème boutique : ambiance abyssale turquoise et corail */
+body.gm-theme-void-ocean{
+ --bg:#04151b;--panel:rgba(7,35,43,.92);--panel2:#0b3038;--line:#1e5960;
+ --text:#e7fbf8;--muted:#91bbb9;--red:#20c6b7;--red2:#087e83;--green:#a7f3d0;
+ background:
+  radial-gradient(ellipse at 14% 18%,rgba(0,224,190,.20),transparent 32%),
+  radial-gradient(ellipse at 88% 12%,rgba(255,112,91,.17),transparent 30%),
+  radial-gradient(ellipse at 55% 100%,rgba(8,145,178,.24),transparent 40%),
+  repeating-linear-gradient(0deg,transparent 0 39px,rgba(65,220,205,.035) 40px),
+  repeating-linear-gradient(90deg,transparent 0 39px,rgba(65,220,205,.035) 40px),
+  linear-gradient(145deg,#031116,#092a32 52%,#06191f);
+ background-attachment:fixed;
+ font-family:"Trebuchet MS",Arial,sans-serif;
+}
+body.gm-theme-void-ocean .ambient{
+ background:radial-gradient(ellipse at 15% 25%,#00e0be35,transparent 36%),radial-gradient(ellipse at 85% 75%,#fb718533,transparent 35%);
+ animation:gmOceanPulse 12s ease-in-out infinite alternate;
+}
+@keyframes gmOceanPulse{from{opacity:.55;transform:scale(1)}to{opacity:1;transform:scale(1.06)}}
+body.gm-theme-void-ocean .topbar{background:rgba(3,20,26,.9);border-bottom-color:#23636a;box-shadow:0 8px 30px #001014aa}
+body.gm-theme-void-ocean .brand,body.gm-theme-void-ocean .nav-link,
+body.gm-theme-void-ocean .user-chip,body.gm-theme-void-ocean .icon-btn,
+body.gm-theme-void-ocean .mobile-toggle{color:#e7fbf8}
+body.gm-theme-void-ocean .brand-mark{background:linear-gradient(135deg,#2dd4bf,#fb7185);color:#03191d;box-shadow:0 0 22px #2dd4bf77}
+body.gm-theme-void-ocean .red,body.gm-theme-void-ocean .hero h1 span{color:#5eead4}
+body.gm-theme-void-ocean .nav-link:hover,body.gm-theme-void-ocean .nav-link.active{color:#fff;background:linear-gradient(100deg,#0f766e99,#fb718544);box-shadow:inset 0 0 0 1px #5eead477,0 0 18px #2dd4bf22}
+body.gm-theme-void-ocean .nav-link::before{color:#99f6e4;background:linear-gradient(145deg,#064e4b,#164e63);border:1px solid #2dd4bf88;box-shadow:inset 0 0 10px #2dd4bf22}
+body.gm-theme-void-ocean .nav-link[data-page="discover"]::before{content:"⌖"}
+body.gm-theme-void-ocean .nav-link[data-page="match"]::before{content:"➶"}
+body.gm-theme-void-ocean .nav-link[data-page="friends"]::before{content:"♧"}
+body.gm-theme-void-ocean .nav-link[data-page="messages"]::before{content:"◈"}
+body.gm-theme-void-ocean .nav-link[data-page="clans"]::before{content:"♜"}
+body.gm-theme-void-ocean .nav-link[data-page="library"]::before{content:"▱"}
+body.gm-theme-void-ocean .nav-link[data-page="clips"]::before{content:"▷"}
+body.gm-theme-void-ocean .nav-link[data-page="leaderboard"]::before{content:"♕"}
+body.gm-theme-void-ocean .nav-link[data-page="shop"]::before{content:"◇"}
+body.gm-theme-void-ocean .nav-link[data-page="admin"]::before{content:"⬡"}
+body.gm-theme-void-ocean .nav-link.active::before{color:#042329;background:linear-gradient(135deg,#5eead4,#fb7185);box-shadow:0 0 15px #2dd4bf77}
+body.gm-theme-void-ocean .icon-btn,body.gm-theme-void-ocean .mobile-toggle{background:linear-gradient(145deg,#064e4b,#164e63);border-color:#2dd4bf77;color:#99f6e4;box-shadow:0 0 13px #2dd4bf22}
+body.gm-theme-void-ocean .panel,body.gm-theme-void-ocean .player-card,
+body.gm-theme-void-ocean .clip-card,body.gm-theme-void-ocean .clan-card,
+body.gm-theme-void-ocean .shop-card,body.gm-theme-void-ocean .library-card{
+ background:linear-gradient(145deg,rgba(8,47,56,.95),rgba(4,27,35,.96));
+ border-color:#23636a;box-shadow:0 10px 30px #00101477;backdrop-filter:blur(10px)
+}
+body.gm-theme-void-ocean .btn-red{background:linear-gradient(110deg,#0d9488,#fb7185);color:#04191d;box-shadow:0 6px 22px #2dd4bf33}
+body.gm-theme-void-ocean .btn-outline,body.gm-theme-void-ocean .small-btn{border-color:#32777a;color:#d8fffa;background:#0b343b}
+body.gm-theme-void-ocean .btn:hover,body.gm-theme-void-ocean .small-btn:hover,body.gm-theme-void-ocean .icon-btn:hover{box-shadow:0 0 20px #2dd4bf55;transform:translateY(-2px)}
+body.gm-theme-void-ocean .avatar,body.gm-theme-void-ocean .big-avatar,
+body.gm-theme-void-ocean .user-chip span:first-child{box-shadow:0 0 18px #2dd4bf55,inset 0 0 15px #fb718533}
+body.gm-theme-void-ocean .shop-balance,body.gm-theme-void-ocean .level-card{background:linear-gradient(110deg,#064e4b,#164e63);border:1px solid #2dd4bf88}
+body.gm-theme-void-ocean .shop-balance b,body.gm-theme-void-ocean .level-card b{color:#99f6e4}
+body.gm-theme-void-ocean .clan-icon,body.gm-theme-void-ocean .shop-icon,body.gm-theme-void-ocean .badge-preview{
+ display:inline-grid;place-items:center;min-width:48px;min-height:48px;padding:8px;border-radius:14px;
+ background:radial-gradient(circle at 30% 20%,#2dd4bf55,transparent 48%),linear-gradient(145deg,#064e4b,#164e63);
+ border:1px solid #2dd4bf88;box-shadow:0 0 18px #2dd4bf33;filter:saturate(1.2)
+}
+body.gm-theme-void-ocean .gm-void-card-art{height:112px;margin:-17px -17px 14px;padding:18px;display:flex;flex-direction:column;justify-content:end;gap:3px;overflow:hidden;background:radial-gradient(circle at 78% 18%,#fb718588,transparent 25%),radial-gradient(circle at 18% 85%,#2dd4bf99,transparent 36%),linear-gradient(130deg,#03252b,#07545a 55%,#192d42);border-bottom:1px solid #2dd4bf88;position:relative}
+.gm-void-card-art:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(145deg,transparent 0 17px,#b9fff011 18px 19px)}
+.gm-void-card-art span,.gm-void-card-art strong{position:relative;z-index:1}
+.gm-void-card-art span{font-size:9px;letter-spacing:2px;color:#99f6e4}
+.gm-void-card-art strong{font:900 27px "Barlow Condensed",Arial,sans-serif;letter-spacing:2px;color:#fff;text-shadow:0 0 15px #2dd4bf}
+@media(prefers-reduced-motion:reduce){body.gm-theme-void-ocean .ambient{animation:none}}
+
+/* VOID OCEAN — effets réels : fond mouvant, coraux dessinés et néons */
+body.gm-theme-void-ocean{
+  background-color:#03151c;
+  background-image:
+    radial-gradient(ellipse at 10% 85%,rgba(251,113,133,.25),transparent 30%),
+    radial-gradient(ellipse at 90% 75%,rgba(45,212,191,.28),transparent 32%),
+    radial-gradient(ellipse at 50% 0%,rgba(7,89,133,.38),transparent 48%),
+    linear-gradient(150deg,#03151c,#062832 48%,#03131e);
+  background-size:160% 160%;
+  animation:gmAbyssMove 18s ease-in-out infinite alternate;
+}
+@keyframes gmAbyssMove{
+  0%{background-position:0% 0%}
+  50%{background-position:70% 45%}
+  100%{background-position:100% 100%}
+}
+body.gm-theme-void-ocean main,
+body.gm-theme-void-ocean .footer{
+  position:relative;
+  z-index:2;
+}
+body.gm-theme-void-ocean .ambient{
+  z-index:0;inset:0;overflow:hidden;opacity:1;
+  background:
+    radial-gradient(ellipse at 15% 18%,#2dd4bf20,transparent 32%),
+    radial-gradient(ellipse at 85% 28%,#fb71851c,transparent 30%);
+  animation:gmOceanDrift 13s ease-in-out infinite alternate;
+}
+@keyframes gmOceanDrift{
+  from{transform:translate3d(-1%,0,0) scale(1);filter:hue-rotate(-8deg)}
+  to{transform:translate3d(1%,1%,0) scale(1.08);filter:hue-rotate(8deg)}
+}
+.gm-coral{
+  position:absolute;bottom:-18px;width:clamp(125px,18vw,235px);height:auto;
+  opacity:0;pointer-events:none;transform-origin:bottom center;
+}
+body.gm-theme-void-ocean .gm-coral{
+  opacity:.88;
+  filter:drop-shadow(0 0 7px #fb7185) drop-shadow(0 0 17px #2dd4bf);
+  animation:gmCoralWave 6s ease-in-out infinite alternate;
+}
+.gm-coral-left{left:-10px}
+.gm-coral-right{right:-10px;transform:scaleX(-1);animation-delay:-2.7s!important}
+@keyframes gmCoralWave{from{translate:0 0;rotate:-2deg}to{translate:0 -8px;rotate:2deg}}
+.gm-bubble{
+  position:absolute;bottom:-24px;width:8px;height:8px;border:1px solid #a5fff4;
+  border-radius:50%;box-shadow:0 0 10px #2dd4bf,0 0 20px #2dd4bf;opacity:0;
+}
+body.gm-theme-void-ocean .gm-bubble{animation:gmBubbleUp 12s linear infinite}
+.gm-bubble-one{left:24%;animation-delay:-1s!important}
+.gm-bubble-two{left:68%;width:6px;height:6px;animation-delay:-6s!important}
+.gm-bubble-three{left:84%;width:11px;height:11px;animation-delay:-9s!important}
+@keyframes gmBubbleUp{
+  0%{transform:translateY(0);opacity:0}
+  12%{opacity:.8}
+  85%{opacity:.65}
+  100%{transform:translateY(-110vh) translateX(30px);opacity:0}
+}
+/* Halo néon appliqué aux icônes de navigation et aux contrôles */
+body.gm-theme-void-ocean .nav-link::before{
+  color:#c8fff8;text-shadow:0 0 5px #fff,0 0 10px #2dd4bf,0 0 19px #2dd4bf,0 0 28px #fb7185;
+  border-color:#5eead4;box-shadow:0 0 8px #2dd4bf,0 0 17px #2dd4bf88,inset 0 0 12px #2dd4bf55;
+}
+body.gm-theme-void-ocean .nav-link.active::before,
+body.gm-theme-void-ocean .nav-link:hover::before{
+  color:#fff;text-shadow:0 0 6px #fff,0 0 14px #2dd4bf,0 0 24px #fb7185;
+  box-shadow:0 0 12px #2dd4bf,0 0 25px #2dd4bf,0 0 34px #fb718588;
+}
+body.gm-theme-void-ocean .icon-btn,
+body.gm-theme-void-ocean .mobile-toggle,
+body.gm-theme-void-ocean .brand-mark,
+body.gm-theme-void-ocean .clan-icon,
+body.gm-theme-void-ocean .shop-icon,
+body.gm-theme-void-ocean .badge-preview{
+  text-shadow:0 0 6px #fff,0 0 12px #2dd4bf,0 0 22px #2dd4bf;
+  filter:drop-shadow(0 0 5px #2dd4bf) drop-shadow(0 0 10px #fb7185aa);
+  box-shadow:0 0 9px #2dd4bf99,0 0 20px #2dd4bf55,inset 0 0 12px #2dd4bf33;
+}
+body.gm-theme-void-ocean svg{
+  filter:drop-shadow(0 0 4px #2dd4bf) drop-shadow(0 0 8px #fb718577);
+}
+body.gm-theme-void-ocean .btn-red,
+body.gm-theme-void-ocean .btn-outline,
+body.gm-theme-void-ocean .small-btn,
+body.gm-theme-void-ocean button{
+  transition:box-shadow .25s ease,border-color .25s ease,filter .25s ease;
+}
+body.gm-theme-void-ocean .btn-red:hover,
+body.gm-theme-void-ocean .btn-outline:hover,
+body.gm-theme-void-ocean .small-btn:hover,
+body.gm-theme-void-ocean .icon-btn:hover{
+  border-color:#fb7185;
+  box-shadow:0 0 9px #2dd4bf,0 0 20px #2dd4bf99,0 0 28px #fb718566;
+  filter:brightness(1.13);
+}
+body.gm-theme-void-ocean .panel,
+body.gm-theme-void-ocean .player-card,
+body.gm-theme-void-ocean .clip-card,
+body.gm-theme-void-ocean .clan-card,
+body.gm-theme-void-ocean .shop-card,
+body.gm-theme-void-ocean .library-card{
+  box-shadow:0 8px 30px #00101499,0 0 0 1px #2dd4bf22,inset 0 1px #a5fff411;
+}
+@media(prefers-reduced-motion:reduce){
+  body.gm-theme-void-ocean,body.gm-theme-void-ocean .ambient,
+  body.gm-theme-void-ocean .gm-coral,body.gm-theme-void-ocean .gm-bubble{animation:none!important}
+}
+</style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <svg class="gm-coral gm-coral-left" viewBox="0 0 220 250">
+      <defs><linearGradient id="gmCoralLeft" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#fb7185"/><stop offset=".55" stop-color="#ff9aa8"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs>
+      <path d="M105 250 C100 210 111 185 91 151 M91 151 C58 130 48 103 42 72 M91 151 C116 126 119 97 112 67 M104 197 C137 181 151 153 158 122 M70 190 C45 177 28 155 21 132 M42 72 C25 57 17 37 20 16 M42 72 C61 55 65 34 59 12 M112 67 C98 49 99 28 108 8 M112 67 C137 53 146 32 143 10 M158 122 C180 108 190 84 188 61 M158 122 C179 133 194 151 198 171" fill="none" stroke="url(#gmCoralLeft)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#fb7185"><circle cx="20" cy="16" r="6"/><circle cx="59" cy="12" r="6"/><circle cx="108" cy="8" r="6"/><circle cx="143" cy="10" r="6"/><circle cx="188" cy="61" r="6"/></g>
+    </svg>
+    <svg class="gm-coral gm-coral-right" viewBox="0 0 220 250">
+      <path d="M110 250 C119 215 101 191 126 158 M126 158 C154 137 164 111 168 80 M126 158 C96 134 92 106 99 75 M117 201 C84 184 71 157 65 127 M154 190 C181 174 195 151 202 129 M168 80 C185 63 191 42 185 21 M168 80 C148 62 143 41 149 18 M99 75 C112 54 109 32 99 12 M99 75 C75 59 66 38 70 16 M65 127 C43 112 34 89 37 65" fill="none" stroke="#2dd4bf" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#2dd4bf"><circle cx="185" cy="21" r="6"/><circle cx="149" cy="18" r="6"/><circle cx="99" cy="12" r="6"/><circle cx="70" cy="16" r="6"/><circle cx="37" cy="65" r="6"/></g>
+    </svg>
+    <span class="gm-bubble gm-bubble-one"></span><span class="gm-bubble gm-bubble-two"></span><span class="gm-bubble gm-bubble-three"></span>
+  </div>
+  <header class="topbar">
+    <a class="brand" href="#" data-page="discover"><span class="brand-mark">G</span><span>GAME<span class="red">MATE</span></span></a>
+    <nav id="mainNav">
+      <button class="nav-link active" data-page="discover">Découvrir</button>
+      <button class="nav-link" data-page="match">Matchmaking</button>
+      <button class="nav-link" data-page="friends">Amis <i id="friendBadge" class="count-badge hidden">0</i></button>
+      <button class="nav-link" data-page="messages">Messages <i id="messageBadge" class="count-badge hidden">0</i></button>
+      <button class="nav-link" data-page="clans">Clans</button>
+      <button class="nav-link" data-page="library">Ma bibliothèque</button>
+      <button class="nav-link" data-page="clips">Clips</button>
+      <button class="nav-link" data-page="leaderboard">Classement</button>
+      <button class="nav-link" data-page="shop">Boutique</button>
+      <button class="nav-link admin-only hidden" data-page="admin">Admin</button>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" data-page="notifications" title="Notifications">♢<i id="notifBadge" class="count-badge hidden">0</i></button>
+      <button id="authOpen" class="btn btn-outline">Connexion</button>
+      <button id="profileOpen" class="user-chip hidden"><span id="userAvatar">?</span><span id="userName">Profil</span></button><button id="logoutBtn" class="btn btn-outline hidden" type="button">Déconnexion</button>
+      <button id="mobileToggle" class="mobile-toggle">☰</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="page-discover" class="page active">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse"></span> LA COMMUNAUTÉ GAMING QUI TE CONNECTE</div>
+          <h1>NE JOUE PLUS<br><span>JAMAIS SOLO.</span></h1>
+          <p>Trouve des mates, forme ton clan, partage tes meilleurs clips et fais grimper ton niveau.</p>
+          <div class="hero-actions"><button class="btn btn-red" data-page="match">Trouver des joueurs <b>↗</b></button><button class="btn btn-glass" data-page="clans">Explorer les clans</button></div>
+          <div class="hero-stats"><div><b id="statPlayers">—</b><small>JOUEURS</small></div><div><b id="statClans">—</b><small>CLANS</small></div><div><b id="statClips">—</b><small>CLIPS</small></div></div>
+        </div>
+        <div class="hero-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="hero-emblem">GM<span>+</span></div><div class="float-tag tag-one">SQUAD UP</div><div class="float-tag tag-two">PLAY TOGETHER</div></div>
+      </div>
+      <div class="section-heading"><div><div class="eyebrow">À LA UNE</div><h2>La communauté bouge.</h2></div><button class="text-btn" data-page="clips">Voir les clips ↗</button></div>
+      <div id="discoverClips" class="clip-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+      <div class="section-heading"><div><div class="eyebrow">TON PROCHAIN DUO</div><h2>Des joueurs à rencontrer.</h2></div><button class="text-btn" data-page="match">Tout voir ↗</button></div>
+      <div id="discoverPlayers" class="player-grid"><div class="empty-state">Connecte-toi pour découvrir les joueurs.</div></div>
+    </section>
+
+    <section id="page-match" class="page">
+      <div class="page-intro"><div class="eyebrow">MATCHMAKING</div><h1>TROUVE TA <span class="red">SQUAD.</span></h1><p>Filtre les joueurs selon ton jeu, ta plateforme et ton style.</p></div>
+      <div class="filter-bar">
+        <label>Jeu<input id="matchGame" class="field" placeholder="Apex Legends, Rust, Valorant…"></label>
+        <label>Plateforme<select id="matchPlatform" class="field"><option value="">Toutes</option><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobile</option><option>Multi-plateforme</option></select></label>
+        <label>Style<select id="matchStyle" class="field"><option value="">Tous les styles</option><option>Chill</option><option>Compétitif</option><option>Débutant</option><option>Entraînement</option></select></label>
+        <button id="matchSearch" class="btn btn-red">Rechercher</button>
+      </div>
+      <div class="result-line"><span id="matchCount">Joueurs disponibles</span><span class="muted">Respect • Fair-play • Good vibes</span></div>
+      <div id="matchResults" class="player-grid"><div class="empty-state">Connecte-toi pour rechercher des joueurs.</div></div>
+    </section>
+
+    <section id="page-friends" class="page">
+      <div class="page-intro"><div class="eyebrow">TON RÉSEAU</div><h1>TES <span class="red">AMIS.</span></h1><p>Gère tes demandes et retrouve tes mates.</p></div>
+      <div class="two-col"><div class="panel"><div class="panel-head"><h3>Mes amis</h3></div><div id="friendsList" class="stack"><div class="empty-state">Connecte-toi pour voir tes amis.</div></div></div><div class="panel"><div class="panel-head"><h3>Demandes reçues</h3></div><div id="friendRequests" class="stack"><div class="empty-state">Aucune demande.</div></div></div></div>
+    </section>
+
+    <section id="page-messages" class="page">
+      <div class="page-intro"><div class="eyebrow">CENTRE DE DISCUSSION</div><h1>TES <span class="red">MESSAGES.</span></h1><p>Discute en privé avec tes amis ou retrouve les membres de tes clans.</p></div>
+      <div class="chat-layout">
+        <aside class="panel chat-sidebar"><div class="panel-head"><h3>Conversations</h3></div><div id="chatThreads" class="stack"><div class="empty-state">Ajoute des amis ou rejoins un clan pour commencer.</div></div></aside>
+        <section class="panel chat-main"><div class="panel-head"><h3 id="chatTitle">Choisis une discussion</h3><span id="chatSubtitle" class="muted">Messages privés et salons de clan</span></div><div id="chatMessages" class="chat-messages"><div class="empty-state">Sélectionne un ami ou un clan dans la liste.</div></div><form id="chatForm" class="chat-compose"><input id="chatInput" class="field" maxlength="1000" placeholder="Écris ton message…" autocomplete="off" disabled><button class="btn btn-red" type="submit" disabled id="chatSend">Envoyer</button></form><p class="hint">Les conversations seront synchronisées lorsque la connexion Supabase sera activée dans le site.</p></section>
+      </div>
+    </section>
+
+    <section id="page-profile" class="page">
+      <div class="page-intro"><div class="eyebrow">IDENTITÉ DE JOUEUR</div><h1>MON <span class="red">PROFIL.</span></h1><p>Présente ton style et les jeux auxquels tu joues.</p></div>
+      <div class="profile-layout"><div class="panel profile-preview"><div class="big-avatar" id="profileAvatarPreview">?</div><h2 id="profilePreviewName">Ton pseudo</h2><p id="profilePreviewBio" class="muted">Ajoute une bio pour te présenter.</p><div id="profilePreviewTags" class="tag-row"></div><div class="level-card"><span>NIVEAU</span><b id="profileLevel">1</b><small id="profileXp">0 XP</small></div></div>
+      <form id="profileForm" class="panel form-panel"><h3>Personnaliser mon profil</h3><div class="panel" style="padding:14px"><h3>🎨 Fond et apparence du site</h3><p class="muted">Choisis le fond d’origine ou un thème que tu as obtenu dans la boutique.</p><label>Mon apparence<select id="memberThemeSelect" class="field"><option value="">Fond de base GAME MATE</option></select></label><p class="hint">Ton choix est sauvegardé automatiquement.</p></div><label>Pseudo<input id="profileUsername" class="field" maxlength="24" required placeholder="Ton pseudo"></label><label>Bio<textarea id="profileBio" class="field" maxlength="240" rows="3" placeholder="Quelques mots sur toi…"></textarea></label><div class="form-row"><label>Jeu principal<select id="profileGame" class="field" required><option value="">Choisir un jeu…</option></select></label><label>Plateforme<select id="profilePlatform" class="field"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobile</option><option>Multi-plateforme</option></select></label></div><div class="form-row"><label>Style de jeu<select id="profileStyle" class="field"><option>Chill</option><option>Compétitif</option><option>Débutant</option><option>Entraînement</option></select></label><label>Micro<select id="profileMic" class="field"><option value="true">Oui</option><option value="false">Non</option></select></label></div><div class="badge-manager"><div class="panel-head"><h3>🏅 Mes badges de profil</h3><span class="tag" id="badgeCount">0 / 6</span></div><p class="muted">Choisis jusqu’à 6 badges parmi ceux que tu as achetés ou débloqués dans la boutique.</p><div id="badgeInventory" class="tag-row"></div></div><button class="btn btn-red" type="submit">Enregistrer le profil</button></form></div>
+    </section>
+
+    <section id="page-notifications" class="page">
+      <div class="page-intro"><div class="eyebrow">ACTUALITÉS</div><h1>TES <span class="red">NOTIFICATIONS.</span></h1><p>Demandes d'amis, invitations et activité du compte.</p></div>
+      <div class="panel"><div class="panel-head"><h3>Centre de notifications</h3><button id="markRead" class="text-btn">Tout marquer comme lu</button></div><div id="notificationsList" class="stack"><div class="empty-state">Connecte-toi pour consulter tes notifications.</div></div></div>
+    </section>
+
+    <section id="page-clans" class="page">
+      <div class="page-intro"><div class="eyebrow">TROUVE TON GROUPE</div><h1>LES <span class="red">CLANS.</span></h1><p>Construis une équipe autour de tes jeux préférés.</p></div>
+      <div class="panel"><h3>Créer un clan</h3><form id="clanForm" class="form-row"><label>Nom du clan<input id="clanName" class="field" maxlength="32" required placeholder="Ex : NIGHT WOLVES"></label><label>Jeu principal<select id="clanGame" class="field" required><option value="">Choisir un jeu…</option></select></label><label>Plateforme<select id="clanPlatform" class="field"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobile</option><option>Multi-plateforme</option></select></label><button class="btn btn-red" type="submit">Créer le clan</button></form></div>
+      <div id="clanResults" class="clan-grid"><div class="empty-state">Chargement des clans…</div></div>
+    </section>
+
+    <section id="page-library" class="page">
+      <div class="page-intro"><div class="eyebrow">TA COLLECTION</div><h1>MA <span class="red">BIBLIOTHÈQUE.</span></h1><p>Ajoute les jeux auxquels tu joues pour améliorer tes matchs.</p></div>
+      <div class="panel"><form id="libraryForm" class="form-row"><label>Nom du jeu<input id="libraryGame" class="field" required placeholder="Rust, Apex Legends…"></label><label>Plateforme<select id="libraryPlatform" class="field"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Mobile</option></select></label><button class="btn btn-red" type="submit">Ajouter à ma bibliothèque</button></form></div>
+      <div id="libraryList" class="library-grid"><div class="empty-state">Connecte-toi pour gérer tes jeux.</div></div>
+    </section>
+
+    <section id="page-clips" class="page">
+      <div class="page-intro"><div class="eyebrow">MOMENTS FORTS</div><h1>LES <span class="red">CLIPS.</span></h1><p>Partage tes meilleurs moments avec la communauté.</p></div>
+      <div class="panel"><form id="clipForm" class="form-row"><label>Titre du clip<input id="clipTitle" class="field" maxlength="80" required placeholder="Mon clutch incroyable"></label><label>Jeu<input id="clipGame" class="field" required placeholder="Apex Legends"></label><label>Fichier vidéo<input id="clipFile" class="field" type="file" accept="video/mp4,video/webm,video/quicktime" required></label><button class="btn btn-red" type="submit">Publier le clip</button></form><p class="hint">Formats MP4, WebM ou MOV. Taille maximale recommandée : 50 Mo.</p></div>
+      <div id="clipResults" class="clip-grid"><div class="empty-state">Aucun clip chargé.</div></div>
+    </section>
+
+    <section id="page-leaderboard" class="page">
+      <div class="page-intro"><div class="eyebrow">LA COMPÉTITION</div><h1>LE <span class="red">CLASSEMENT.</span></h1><p>Gagne de l'XP en participant à la communauté.</p></div>
+      <div class="panel"><div class="panel-head"><h3>Top joueurs</h3><span class="tag">XP COMMUNAUTAIRE</span></div><div id="leaderboardList" class="stack"><div class="empty-state">Chargement du classement…</div></div></div>
+    </section>
+
+    <section id="page-shop" class="page">
+      <div class="page-intro"><div class="eyebrow">PERSONNALISATION</div><h1>LA <span class="red">BOUTIQUE.</span></h1><p>Échange tes points contre des éléments cosmétiques virtuels.</p></div>
+      <div class="shop-balance">TON SOLDE <b id="shopBalance">—</b> <span>GM POINTS</span></div><div class="shop-tabs" role="tablist" aria-label="Catégories de la boutique"><button type="button" class="shop-tab active" data-shop-tab="badges">🏅 Badges spéciaux</button><button type="button" class="shop-tab" data-shop-tab="themes">🎨 Thèmes</button><button type="button" class="shop-tab" data-shop-tab="extras">✨ Autres</button></div><div id="shopItems" class="shop-grid"><div class="empty-state">Connecte-toi pour accéder à la boutique.</div></div>
+    </section>
+
+    <section id="page-admin" class="page">
+      <div class="page-intro"><div class="eyebrow">ZONE SÉCURISÉE</div><h1>GAME MATE <span class="red">ADMIN.</span></h1><p>Gestion réservée aux comptes explicitement autorisés.</p></div>
+      <div class="admin-warning">⚠️ Mode démonstration : les discussions privées et de clan sont enregistrées localement dans ce navigateur. Elles ne sont pas encore synchronisées entre les appareils et ne constituent pas un historique serveur fiable pour la modération. Le bannissement IP nécessite un serveur sécurisé.</div>
+      <div class="admin-grid">
+        <div class="panel"><h3>📊 Tableau de bord</h3><div id="adminStats" class="stack">Chargement…</div></div>
+        <div class="panel"><h3>🚨 Signalements</h3><div id="adminReports" class="stack">Chargement…</div></div>
+      </div>
+      <div class="panel" style="margin-top:15px"><div class="panel-head"><h3>👥 Gestion des membres</h3><span class="tag">Admin & modération</span></div><p class="muted">Consulte les comptes et applique des sanctions locales.</p><input id="adminUserSearch" class="field" placeholder="Rechercher un pseudo ou un email…"><div id="adminUsers" class="stack" style="margin-top:12px"></div></div>
+      <div class="admin-grid" style="margin-top:15px">
+        <div class="panel"><h3>📣 Annonces de la communauté</h3><form id="adminAnnouncementForm" class="form-panel"><label>Titre<input id="announcementTitle" class="field" maxlength="70" required placeholder="Ex : Soirée communautaire"></label><label>Message<textarea id="announcementText" class="field" rows="3" maxlength="350" required placeholder="Ton annonce…"></textarea></label><button class="btn btn-red" type="submit">Publier l’annonce</button></form><div id="adminAnnouncements" class="stack" style="margin-top:12px"></div></div>
+        <div class="panel"><h3>🎮 Catalogue du site</h3><form id="adminGameForm" class="form-panel"><label>Ajouter un jeu<input id="adminGameName" class="field" maxlength="45" required placeholder="Nom du jeu"></label><button class="btn btn-red" type="submit">Ajouter le jeu</button></form><div id="adminGames" class="stack" style="margin-top:12px"></div><div class="hint" style="margin-top:10px">Catalogue de démonstration, stocké dans ce navigateur.</div></div>
+      </div>
+      <div class="panel" style="margin-top:15px"><div class="panel-head"><h3>🛍️ Gestion de la boutique</h3><span class="tag">Admin & modération</span></div><p class="muted">Ajoute des badges ou des thèmes, choisis s’ils sont gratuits ou payants, puis modifie leur prix à tout moment.</p><form id="adminShopForm" class="form-panel"><div class="form-row"><label>Type d’article<select id="shopItemType" class="field"><option value="badge">Badge spécial</option><option value="theme">Thème</option></select></label><label>Nom<input id="shopItemName" class="field" maxlength="40" required placeholder="Ex : Badge légendaire"></label><label>Icône / emoji<input id="shopItemIcon" class="field" maxlength="8" value="🏅" placeholder="🏅"></label></div><label>Description<input id="shopItemDesc" class="field" maxlength="140" placeholder="Description de l’article"></label><label id="shopThemeWrap" class="hidden">Thème à associer<select id="shopThemeId" class="field"><option value="neon-cyber">NEON CYBER</option><option value="void-ocean">VOID OCEAN</option></select></label><div class="form-row"><label>Tarification<select id="shopItemPricing" class="field"><option value="paid">Payant</option><option value="free">Gratuit</option></select></label><label id="shopPriceWrap">Prix en XP<input id="shopItemPrice" class="field" type="number" min="1" step="1" value="100" required></label></div><button class="btn btn-red" type="submit">Ajouter à la boutique</button></form><div id="adminShopCatalog" class="stack" style="margin-top:14px"></div></div>
+      <div class="panel" style="margin-top:15px"><div class="panel-head"><h3>🛡️ Gestion des clans</h3><span class="muted">Suppression réservée à l’admin</span></div><div id="adminClans" class="stack"></div></div>
+      <div class="panel" style="margin-top:15px"><h3>🌐 Protection contre les retours après bannissement</h3><p class="muted">Le bannissement par adresse IP sera activable lorsque GAME MATE sera relié à un backend. Il faudra enregistrer les IP côté serveur, les protéger (accès strictement réservé à l’admin), prévoir une durée de conservation limitée et tenir compte des IP partagées ou changeantes. Aucun IP n’est collecté dans cette démo.</p></div>
+      <div class="panel" style="margin-top:15px"><h3>🧾 Historique des actions</h3><div id="adminAudit" class="stack"></div></div>
+    </section>
+    <footer class="footer"><span class="brand-mini">GAME<span class="red">MATE</span></span><span>Joue ensemble. Progresse ensemble.</span><span id="backendStatus" class="status-pill">Mode HTML local</span></footer>
+  </main>
+
+  <div id="authModal" class="modal hidden"><div class="modal-backdrop" data-close-modal></div><div class="modal-card"><button class="modal-close" data-close-modal>×</button><div class="eyebrow">REJOINS LA SQUAD</div><h2 id="authTitle">Bienvenue sur GAME MATE.</h2><p class="muted">Connecte-toi pour retrouver tes mates.</p><form id="authForm"><label>ID GAME MATE<input id="authId" class="field" type="text" required minlength="3" maxlength="20" pattern="[A-Za-z0-9._-]+" autocomplete="username" placeholder="Ex : ShadowFox"></label><label>Mot de passe<input id="authPassword" class="field" type="password" minlength="8" required autocomplete="current-password" placeholder="8 caractères minimum"></label><label id="authUsernameWrap">Pseudo affiché<input id="authUsername" class="field" maxlength="24" placeholder="Ton pseudo"></label><button class="btn btn-red full-btn" type="submit" id="authSubmit">Créer mon compte</button></form><button id="authSwitch" class="text-btn centered">Déjà un compte ? Se connecter</button><p id="authMessage" class="form-message"></p></div></div>
+  <div id="reportModal" class="modal hidden"><div class="modal-backdrop" data-close-report></div><div class="modal-card"><button class="modal-close" data-close-report>×</button><div class="eyebrow">MODÉRATION</div><h2>Signaler un joueur</h2><p class="muted">Choisis la raison la plus adaptée et ajoute des précisions si nécessaire.</p><form id="reportForm"><input type="hidden" id="reportTarget"><label>Motif du signalement<select id="reportReason" class="field" required><option value="">Choisir un motif…</option><option>Insultes / harcèlement</option><option>Menaces / intimidation</option><option>Discours haineux / discrimination</option><option>Spam / publicité abusive</option><option>Contenu sexuel ou inapproprié</option><option>Usurpation d’identité / faux compte</option><option>Triche / comportement déloyal</option><option>Arnaque / tentative de phishing</option><option>Autre comportement inapproprié</option></select></label><label>Détails (facultatif)<textarea id="reportDetails" class="field" rows="4" maxlength="700" placeholder="Décris ce qui s'est passé, sans partager d'informations personnelles inutiles…"></textarea></label><button class="btn btn-red full-btn" type="submit">Envoyer le signalement</button></form></div></div>
+
+  <div id="themePreviewModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-theme></div>
+    <div class="modal-card gm-theme-preview-modal">
+      <button class="modal-close" data-close-theme aria-label="Fermer">×</button>
+      <div class="eyebrow">APERÇU DU THÈME COMPLET</div>
+      <h2>NEON CYBER</h2>
+      <p class="muted">Voici un aperçu des fonds, polices, boutons, onglets et panneaux qui seront appliqués à GAME MATE.</p>
+      <div class="gm-preview-site">
+        <div class="gm-preview-nav"><b>GAME<span>MATE</span></b><span>Découvrir</span><span class="active">Boutique</span><span>Clans</span></div>
+        <div class="gm-preview-hero">
+          <small>LA COMMUNAUTÉ GAMING</small>
+          <h3>NE JOUE PLUS<br><em>JAMAIS SOLO.</em></h3>
+          <p>Ton univers gaming, à tes couleurs.</p>
+          <button class="gm-preview-button">EXPLORER <b>↗</b></button>
+        </div>
+        <div class="gm-preview-panels"><div><small>TON PROFIL</small><b>ShadowFox</b><span>NIVEAU 12</span></div><div><small>TON CLAN</small><b>NIGHT WOLVES</b><span>EN LIGNE</span></div></div>
+      </div>
+      <div class="gm-preview-actions">
+        <button class="btn btn-outline" data-close-theme>Continuer à regarder</button>
+        <button id="claimCyberTheme" class="btn btn-red">Obtenir gratuitement</button>
+      </div>
+      <p class="gm-preview-note">Gratuit · Thème complet · Conservé dans ta collection une fois obtenu</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+"use strict";
+
+// Configuration Supabase GAME MATE
+// La clé publishable peut être exposée dans le navigateur.
+// La sécurité doit être assurée par les politiques RLS côté Supabase.
+const SUPABASE_URL = "https://mtmhlmnotkwzoevngcmi.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_vXx6Sct6ejLKVii9GfU6CQ_ioUXhACq";
+const supabaseClient = window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  : null;
+
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+// Aucune donnée de jeu n'est conservée dans localStorage : Supabase est la source unique.
+// Les données partagées sont chargées après authentification puis synchronisées en base.
+const get = (k, fallback) => fallback;
+const put = () => {};
+let users = [];
+let clans = [];
+let friendships = [];
+let notifications = [];
+let chatMessages = [];
+let activeChat = null;
+let library = [];
+let clips = [];
+let reports = [];
+let current = null;
+let announcements = [];
+let customGames = ["Apex Legends","Rust","DayZ","Valorant","Fortnite","Minecraft","Rocket League","Counter-Strike 2"];
+let auditLog = [];
+let customShopItems = [];
+let authMode = "signup";
+const me = () => users.find(u=>u.id===current) || null;
+const toast = msg => { $("toast").textContent=msg; $("toast").classList.remove("hidden"); clearTimeout(window.gmToast); window.gmToast=setTimeout(()=>$ ("toast").classList.add("hidden"),2600); };
+const GM_BUCKETS = {
+ clans:()=>clans, friends:()=>friendships,
+ notifications:()=>notifications, chatMessages:()=>chatMessages, library:()=>library,
+ clips:()=>clips, reports:()=>reports, announcements:()=>announcements,
+ customGames:()=>customGames, auditLog:()=>auditLog, customShopItems:()=>customShopItems,
+ // Préférences de badges conservées dans gm_app_state : aucune modification SQL nécessaire.
+ selectedBadgePrefs:()=>users.map(u=>({id:u.id,selectedBadges:Array.isArray(u.selectedBadges)?u.selectedBadges.slice(0,6):[]}))
+};
+let gmSaveTimer=null, gmRealtimeChannel=null, gmSaving=false, gmDirty=false;
+function save(){
+ if(!current || !supabaseClient) return;
+ gmDirty=true;
+ clearTimeout(gmSaveTimer);
+ gmSaveTimer=setTimeout(syncAllToSupabase,350);
+}
+async function syncAllToSupabase(){
+ if(!current || !supabaseClient || gmSaving) return;
+ gmSaving=true;gmDirty=false;
+ try{
+  const rows=Object.entries(GM_BUCKETS).map(([bucket,read])=>({bucket,payload:read(),updated_by:current,updated_at:new Date().toISOString()}));
+  const {error}=await supabaseClient.from("gm_app_state").upsert(rows,{onConflict:"bucket"});
+  if(error) throw error;
+  const u=me();
+  if(u){const {error:profileError}=await supabaseClient.from("profiles").update({username:u.name,game:u.game||"",platform:u.platform||"PC",play_style:u.style||"Chill",bio:u.bio||"",xp:Number(u.xp)||0,total_xp:Number(u.totalXp)||0,owned_badges:u.ownedBadges||[],owned_themes:u.ownedThemes||[],active_theme:u.activeTheme||null}).eq("id",current);if(profileError)throw profileError;}
+  $("backendStatus").textContent="Données synchronisées avec Supabase";$("backendStatus").classList.add("ok");
+ }catch(e){console.error("Synchronisation Supabase",e);$("backendStatus").textContent="Erreur de synchronisation Supabase";$("backendStatus").classList.remove("ok");toast("Synchronisation impossible : "+(e.message||"vérifie les règles SQL"));}
+ finally{gmSaving=false;if(gmDirty){clearTimeout(gmSaveTimer);gmSaveTimer=setTimeout(syncAllToSupabase,400);}}
+}
+async function loadSharedState(){
+ const {data,error}=await supabaseClient.from("gm_app_state").select("bucket,payload");
+ if(error)throw error;
+ const state=Object.fromEntries((data||[]).map(x=>[x.bucket,x.payload]));
+ const {data:profiles,error:profilesError}=await supabaseClient.from("profiles").select("id,username,game,platform,play_style,bio,xp,total_xp,role,banned,owned_badges,owned_themes,active_theme");
+ if(profilesError)throw profilesError;
+ const badgePrefs=Array.isArray(state.selectedBadgePrefs)?state.selectedBadgePrefs:[];
+ const badgePrefsById=new Map(badgePrefs.map(x=>[x.id,Array.isArray(x.selectedBadges)?x.selectedBadges.slice(0,6):[]]));
+ users=(profiles||[]).map(p=>({id:p.id,name:p.username,game:p.game,platform:p.platform,style:p.play_style,bio:p.bio,xp:p.xp,totalXp:p.total_xp,role:p.role,banned:p.banned,ownedBadges:p.owned_badges||[],ownedThemes:p.owned_themes||[],activeTheme:p.active_theme,selectedBadges:badgePrefsById.get(p.id)||[]}));
+ clans=Array.isArray(state.clans)?state.clans:[]; friendships=Array.isArray(state.friends)?state.friends:[];
+ notifications=Array.isArray(state.notifications)?state.notifications:[];chatMessages=Array.isArray(state.chatMessages)?state.chatMessages:[];
+ library=Array.isArray(state.library)?state.library:[];clips=Array.isArray(state.clips)?state.clips:[];reports=Array.isArray(state.reports)?state.reports:[];
+ announcements=Array.isArray(state.announcements)?state.announcements:[];customGames=Array.isArray(state.customGames)?state.customGames:customGames;
+ auditLog=Array.isArray(state.auditLog)?state.auditLog:[];customShopItems=Array.isArray(state.customShopItems)?state.customShopItems:[];
+}
+function subscribeSharedState(){
+ if(gmRealtimeChannel) supabaseClient.removeChannel(gmRealtimeChannel);
+ gmRealtimeChannel=supabaseClient.channel("gm-global-state")
+  .on("postgres_changes",{event:"*",schema:"public",table:"gm_app_state"},async()=>{
+   if(gmSaving)return;
+   try{const keep=current;await loadSharedState();current=keep;const {data}=await supabaseClient.from("profiles").select("*").eq("id",current).maybeSingle();if(data){let u=users.find(x=>x.id===current);if(!u){u={id:current,name:data.username};users.push(u);}Object.assign(u,{name:data.username,game:data.game,platform:data.platform,style:data.play_style,bio:data.bio,xp:data.xp,totalXp:data.total_xp,role:data.role,banned:data.banned,ownedBadges:data.owned_badges,ownedThemes:data.owned_themes,activeTheme:data.active_theme,selectedBadges:Array.isArray(u.selectedBadges)?u.selectedBadges:[]});}updateHeader();render();}catch(e){console.warn("Realtime GAME MATE",e);}
+  }).subscribe();
+}
+const audit = (message) => { auditLog.unshift({id:"a"+Date.now(),message,by:me()?.name||"Système",at:new Date().toLocaleString("fr-FR")}); auditLog=auditLog.slice(0,30); };
+const CYBER_THEME_ID = "neon-cyber";
+const VOID_THEME_ID = "void-ocean";
+const WINTER_THEME_ID = "winter-raid";
+const WINTER_START = new Date(2026,11,1,0,0,0);
+const WINTER_END = new Date(2027,0,2,0,0,0);
+function winterEventOpen(){const now=new Date();return now>=WINTER_START&&now<WINTER_END;}
+function activeThemeUser(){return me();}
+function applyMemberTheme(){
+ const u=activeThemeUser();
+ document.body.classList.toggle("gm-theme-cyber",!!u && u.activeTheme===CYBER_THEME_ID);
+ document.body.classList.toggle("gm-theme-void-ocean",!!u && u.activeTheme===VOID_THEME_ID);
+ document.body.classList.toggle("gm-theme-winter-raid",!!u && u.activeTheme===WINTER_THEME_ID);
+}
+function previewCyberTheme(){ $("themePreviewModal").classList.remove("hidden"); $("themePreviewModal").setAttribute("aria-hidden","false"); }
+function closeCyberPreview(){ $("themePreviewModal").classList.add("hidden"); $("themePreviewModal").setAttribute("aria-hidden","true"); }
+function claimCyberTheme(){
+ if(!need())return;
+ const u=me();
+ u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];
+ if(!u.ownedThemes.includes(CYBER_THEME_ID))u.ownedThemes.push(CYBER_THEME_ID);
+ u.activeTheme=CYBER_THEME_ID;
+ audit("Thème complet NEON CYBER obtenu gratuitement et équipé");
+ save();applyMemberTheme();closeCyberPreview();render();
+ toast("NEON CYBER ajouté gratuitement à ta collection et équipé !");
+}
+
+// L'XP dépensable et l'XP cumulée sont séparées : les achats ne font jamais baisser le niveau.
+users.forEach(u => {
+  u.xp = Math.max(0, Number(u.xp) || 0); // solde disponible dans la boutique
+  if (!Number.isFinite(Number(u.totalXp))) u.totalXp = u.xp; // migration des anciens comptes
+  else u.totalXp = Math.max(u.xp, Number(u.totalXp) || 0);
+});
+const gainXp = (u, amount) => {
+  if (!u) return;
+  const points = Math.max(0, Number(amount) || 0);
+  u.xp = (Number(u.xp) || 0) + points;
+  u.totalXp = (Number(u.totalXp) || 0) + points;
+};
+const level = totalXp => Math.floor((totalXp||0)/100)+1;
+let badgeCatalog = [
+ {id:"administrateur",name:"Administrateur GAME MATE",icon:"👑",desc:"Badge exclusif réservé aux administrateurs officiels de GAME MATE.",cost:0,free:true,adminOnly:true},
+ {id:"flamme",name:"Flamme",icon:"🔥",desc:"Pour les joueurs toujours en feu.",cost:100},
+ {id:"diamant",name:"Diamant",icon:"💎",desc:"Un badge rare et précieux.",cost:180},
+ {id:"legende",name:"Légende",icon:"👑",desc:"Pour les joueurs emblématiques.",cost:250},
+ {id:"eclair",name:"Éclair",icon:"⚡",desc:"Rapide, précis et efficace.",cost:140},
+ {id:"loup",name:"Loup solitaire",icon:"🐺",desc:"Le joueur indépendant.",cost:160},
+ {id:"trophee",name:"Champion",icon:"🏆",desc:"La victoire avant tout.",cost:220},
+ {id:"coeur",name:"Esprit d’équipe",icon:"💚",desc:"Toujours là pour ses mates.",cost:120},
+ {id:"etoile",name:"Étoile",icon:"🌟",desc:"Une présence qui brille.",cost:150},
+ {id:"premier_message",name:"Premier message",icon:"💬",desc:"Pour ton tout premier message envoyé.",cost:0,free:true},
+ {id:"fondateur",name:"Fondateur",icon:"🛡️",desc:"Pour avoir créé ton premier clan.",cost:0,free:true},
+ {id:"recrue",name:"Nouvelle recrue",icon:"🤝",desc:"Pour avoir rejoint ton premier clan.",cost:0,free:true},
+ {id:"social",name:"Joueur sociable",icon:"👥",desc:"Pour avoir au moins 5 amis.",cost:0,free:true},
+ // Badges à débloquer en participant à la communauté
+ {id:"premier_pas",name:"Premier pas",icon:"👣",desc:"Inscris-toi et fais tes premiers pas sur GAME MATE.",cost:0,free:true},
+ {id:"collectionneur_3",name:"Collectionneur",icon:"🎮",desc:"Ajoute 3 jeux à ta bibliothèque.",cost:0,free:true},
+ {id:"bibliotheque_10",name:"Bibliothèque vivante",icon:"📚",desc:"Ajoute 10 jeux à ta bibliothèque.",cost:0,free:true},
+ {id:"premier_clip",name:"Créateur",icon:"🎬",desc:"Publie ton premier clip.",cost:0,free:true},
+ {id:"clip_master",name:"Clip Master",icon:"📹",desc:"Publie 5 clips.",cost:0,free:true},
+ {id:"bavard",name:"Grand bavard",icon:"🗣️",desc:"Envoie 25 messages.",cost:0,free:true},
+ {id:"communaute",name:"Star de la communauté",icon:"🌐",desc:"Atteins 10 amis.",cost:0,free:true},
+ {id:"multi_clan",name:"Esprit de clan",icon:"🏕️",desc:"Rejoins ou crée 3 clans.",cost:0,free:true},
+ {id:"explorateur",name:"Explorateur",icon:"🧭",desc:"Ajoute 5 jeux différents à ta bibliothèque.",cost:0,free:true},
+ {id:"niveau_5",name:"Vétéran",icon:"🎖️",desc:"Atteins le niveau 5.",cost:0,free:true},
+ {id:"niveau_10",name:"Élite",icon:"🥇",desc:"Atteins le niveau 10.",cost:0,free:true},
+ // Badges exclusifs achetables avec les XP
+ {id:"dragon",name:"Dragon ancien",icon:"🐉",desc:"Un emblème puissant pour les joueurs redoutables.",cost:320},
+ {id:"requin",name:"Requin",icon:"🦈",desc:"Le prédateur des parties en ligne.",cost:260},
+ {id:"fantome",name:"Fantôme",icon:"👻",desc:"Discret, insaisissable et mystérieux.",cost:210},
+ {id:"samourai",name:"Samouraï",icon:"🥷",desc:"Discipline, précision et honneur.",cost:280},
+ {id:"phoenix",name:"Phénix",icon:"🪽",desc:"Toujours renaître plus fort.",cost:300},
+ {id:"couronne_or",name:"Couronne dorée",icon:"👑",desc:"Un symbole de prestige à afficher.",cost:450},
+ {id:"astronaute",name:"Astronaute",icon:"👨‍🚀",desc:"Direction les étoiles et les victoires.",cost:240},
+ {id:"robot",name:"Cyber joueur",icon:"🤖",desc:"Un badge pour les gamers du futur.",cost:190},
+ {id:"flocon",name:"Givre",icon:"❄️",desc:"Un sang-froid légendaire.",cost:170},
+ {id:"foudre_noire",name:"Foudre noire",icon:"🌩️",desc:"Une énergie impossible à arrêter.",cost:290},
+ {id:"soleil",name:"Soleil",icon:"☀️",desc:"Apporte la lumière à la communauté.",cost:160},
+ {id:"lune",name:"Lune",icon:"🌙",desc:"Pour les joueurs de la nuit.",cost:160},
+ {id:"requiem",name:"Requiem",icon:"☠️",desc:"Un emblème sombre et rare.",cost:380},
+ {id:"coeur_rose",name:"Good Vibes",icon:"💖",desc:"La bonne humeur avant tout.",cost:130},
+ {id:"tigre",name:"Tigre",icon:"🐯",desc:"Féroce dans chaque affrontement.",cost:230},
+ {id:"renard",name:"Renard rusé",icon:"🦊",desc:"La stratégie est ta meilleure arme.",cost:200},
+ {id:"couronne_glace",name:"Roi des glaces",icon:"🧊",desc:"Un style froid et imperturbable.",cost:340},
+ {id:"medaille",name:"Médaille d'honneur",icon:"🏅",desc:"Un badge prestigieux pour ton profil.",cost:250},
+ {id:"arc_en_ciel",name:"Arc-en-ciel",icon:"🌈",desc:"Un peu de couleur dans l'arène.",cost:180},
+ {id:"oeil",name:"Œil du sniper",icon:"🎯",desc:"La précision avant tout.",cost:270},
+ {id:"couronne_royale",name:"Roi du game",icon:"♛",desc:"Le prestige ultime de GAME MATE.",cost:500}
+];
+// Recharge les badges personnalisés après la déclaration du catalogue principal.
+customShopItems.forEach(item=>{if(item.type==="badge"&&!badgeCatalog.some(b=>b.id===item.id))badgeCatalog.push({...item,free:item.free===true});});
+function awardBadge(user,id){if(!user)return false;user.ownedBadges=Array.isArray(user.ownedBadges)?user.ownedBadges:[];if(user.ownedBadges.includes(id))return false;user.ownedBadges.push(id);const b=badgeCatalog.find(x=>x.id===id);if(b)toast("Badge débloqué : "+b.icon+" "+b.name+" !");return true;}
+function checkFriendBadge(user){if(!user)return;const count=friendships.filter(f=>f.status==="accepted"&&(f.from===user.id||f.to===user.id)).length;if(count>=5)awardBadge(user,"social");}
+function checkProgressBadges(user){
+ if(!user)return;
+ const friendCount=friendships.filter(f=>f.status==="accepted"&&(f.from===user.id||f.to===user.id)).length;
+ const sentMessages=chatMessages.filter(m=>m.from===user.id).length;
+ const userGames=library.filter(g=>g.user===user.id);
+ const uniqueGames=new Set(userGames.map(g=>(g.game||"").trim().toLowerCase()).filter(Boolean)).size;
+ const userClips=clips.filter(c=>c.user===user.name).length;
+ const clanCount=clans.filter(c=>c.owner===user.name||(Array.isArray(c.members)&&c.members.includes(user.id))).length;
+ const lvl=level(user.totalXp||0);
+ const checks=[
+  ["premier_pas",!!user.name],["collectionneur_3",userGames.length>=3],["bibliotheque_10",userGames.length>=10],
+  ["premier_clip",userClips>=1],["clip_master",userClips>=5],["bavard",sentMessages>=25],
+  ["communaute",friendCount>=10],["multi_clan",clanCount>=3],["explorateur",uniqueGames>=5],
+  ["niveau_5",lvl>=5],["niveau_10",lvl>=10]
+ ];
+ let changed=false;checks.forEach(([id,ok])=>{if(ok&&awardBadge(user,id))changed=true;});
+ if(changed)save();
+}
+function clanIsMember(c,user=me()){return !!user && (c.owner===user.name || (Array.isArray(c.members)&&c.members.includes(user.id)));}
+function dmKey(a,b){return [a,b].sort().join("__");}
+function openChat(type,id){activeChat={type,id};nav("messages");}
+function renderChat(){
+ const u=me();if(!u)return;
+ const threadItems=[];
+ friendships.filter(f=>f.status==="accepted"&&(f.from===current||f.to===current)).forEach(f=>{const otherId=f.from===current?f.to:f.from;const other=users.find(x=>x.id===otherId);if(other)threadItems.push({type:"dm",id:dmKey(current,otherId),title:other.name,sub:"Message privé",icon:"👤"});});
+ clans.filter(c=>clanIsMember(c,u)).forEach(c=>threadItems.push({type:"clan",id:c.id,title:c.name,sub:"Discussion du clan · "+c.game,icon:"🛡️"}));
+ $("chatThreads").innerHTML=threadItems.map(t=>`<button type="button" class="chat-thread ${activeChat?.type===t.type&&activeChat?.id===t.id?"active":""}" data-chat-type="${t.type}" data-chat-id="${esc(t.id)}"><b>${t.icon} ${esc(t.title)}</b><small>${esc(t.sub)}</small></button>`).join("")||'<div class="empty-state">Aucune conversation. Ajoute un ami ou crée/rejoins un clan.</div>';
+ const selected=threadItems.find(t=>activeChat&&t.type===activeChat.type&&t.id===activeChat.id);
+ const input=$("chatInput"),send=$("chatSend");input.disabled=!selected;send.disabled=!selected;
+ if(!selected){$("chatTitle").textContent="Choisis une discussion";$("chatSubtitle").textContent="Messages privés et salons de clan";$("chatMessages").innerHTML='<div class="empty-state">Sélectionne un ami ou un clan dans la liste.</div>';return;}
+ $("chatTitle").textContent=selected.icon+" "+selected.title;$("chatSubtitle").textContent=selected.sub;
+ const msgs=chatMessages.filter(m=>m.type===selected.type&&m.threadId===selected.id);
+ $("chatMessages").innerHTML=msgs.map(m=>`<div class="chat-bubble ${m.from===current?"mine":""}"><b>${esc(users.find(x=>x.id===m.from)?.name||"Joueur")}</b><div>${esc(m.text)}</div><small>${esc(m.at||"")}</small></div>`).join("")||'<div class="empty-state">Pas encore de message. Lance la conversation !</div>';
+ $("chatMessages").scrollTop=$("chatMessages").scrollHeight;
+}
+function sendChatMessage(text){const u=me();if(!u||!activeChat)return false;const msg=String(text||"").trim();if(!msg)return false;
+ let allowed=false,recipientIds=[];
+ if(activeChat.type==="dm") {const ids=activeChat.id.split("__"),otherId=ids.find(x=>x!==current);allowed=friendships.some(f=>f.status==="accepted"&&((f.from===current&&f.to===otherId)||(f.to===current&&f.from===otherId)));if(allowed)recipientIds=[otherId];}
+ else if(activeChat.type==="clan"){const c=clans.find(x=>x.id===activeChat.id);allowed=!!c&&clanIsMember(c,u);if(allowed)recipientIds=users.filter(member=>clanIsMember(c,member)&&member.id!==current).map(member=>member.id);}
+ if(!allowed){toast("Tu n'as plus accès à cette discussion.");activeChat=null;renderChat();return false;}
+ const at=new Date().toLocaleString("fr-FR");chatMessages.push({id:"m"+Date.now()+Math.random().toString(16).slice(2),type:activeChat.type,threadId:activeChat.id,from:current,text:msg,at});
+ recipientIds.forEach(id=>notifications.push({id:"n"+Date.now()+Math.random().toString(16).slice(2),user:id,text:(activeChat.type==="clan"?u.name+" a envoyé un message dans le clan.":u.name+" t'a envoyé un message."),read:false,kind:"message"}));
+ if(!u.ownedBadges?.includes("premier_message"))awardBadge(u,"premier_message");save();renderChat();renderNotificationBadges();return true;
+}
+function renderNotificationBadges(){const incoming=friendships.filter(f=>f.to===current&&f.status==="pending").length;const unread=notifications.filter(n=>n.user===current&&!n.read).length;const unreadMsgs=notifications.filter(n=>n.user===current&&!n.read&&n.kind==="message").length;$("friendBadge").textContent=incoming;$("friendBadge").classList.toggle("hidden",!incoming);$("notifBadge").textContent=unread;$("notifBadge").classList.toggle("hidden",!unread);$("messageBadge").textContent=unreadMsgs;$("messageBadge").classList.toggle("hidden",!unreadMsgs);}
+$("chatForm").addEventListener("submit",e=>{e.preventDefault();if(sendChatMessage($("chatInput").value))$("chatInput").value="";});
+document.addEventListener("click",e=>{const thread=e.target.closest("[data-chat-type]");if(thread){activeChat={type:thread.dataset.chatType,id:thread.dataset.chatId};renderChat();return;}const dm=e.target.closest("[data-open-dm]");if(dm){openChat("dm",dm.dataset.openDm);return;}const clanChat=e.target.closest("[data-open-clan]");if(clanChat){openChat("clan",clanChat.dataset.openClan);return;}});
+function nav(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll(".nav-link").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("mainNav").classList.remove("open");render();}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>nav(b.dataset.page)));
+$("mobileToggle").addEventListener("click",()=>$("mainNav").classList.toggle("open"));
+// Authentification réelle Supabase : l’ID public est converti en identifiant email technique non affiché.
+// Les mots de passe restent exclusivement gérés par Supabase Auth.
+function normalizeLoginId(value){return String(value||"").trim().toLowerCase();}
+function authEmailFromId(value){return normalizeLoginId(value)+"@gamemate.app";}
+function validLoginId(value){return /^[a-z0-9._-]{3,20}$/.test(normalizeLoginId(value));}
+async function loadAuthenticatedUser(authUser, loginId){
+ const {data:profile,error}=await supabaseClient.from("profiles").select("*").eq("id",authUser.id).maybeSingle();
+ if(error) console.warn("Lecture profil Supabase :",error.message);
+ await loadSharedState();
+ const meta=authUser.user_metadata||{};
+ const name=profile?.username||meta.username||loginId||"Joueur";
+ let u=users.find(x=>x.id===authUser.id);
+ const mapped={...(u||{}),id:authUser.id,loginId:loginId||String(authUser.email||"").split("@")[0],name,email:authUser.email,game:profile?.game||"",platform:profile?.platform||"PC",style:profile?.play_style||"Chill",bio:profile?.bio||"",xp:profile?.xp||0,totalXp:profile?.total_xp||0,role:profile?.role||"member",banned:!!profile?.banned,ownedBadges:profile?.owned_badges||[],ownedThemes:profile?.owned_themes||[],activeTheme:profile?.active_theme||null};
+ if(u)Object.assign(u,mapped);else users.push(mapped);
+ current=authUser.id;subscribeSharedState();updateHeader();render();
+}
+function updateHeader(){const u=me();$("authOpen").classList.toggle("hidden",!!u);$("profileOpen").classList.toggle("hidden",!u);$("logoutBtn").classList.toggle("hidden",!u);if(u){$("userName").textContent=u.name;$("userAvatar").textContent=u.name[0].toUpperCase();}document.querySelectorAll(".admin-only").forEach(e=>e.classList.toggle("hidden",!u||!["admin","moderator"].includes(u.role)));$("backendStatus").textContent="Supabase • en attente de connexion";$("backendStatus").classList.remove("ok");}
+function openAuth(){authMode="signup";$("authTitle").textContent="Bienvenue sur GAME MATE.";$("authSubmit").textContent="Créer mon compte";$("authUsernameWrap").classList.remove("hidden");$("authMessage").textContent="";$("authId").value="";$("authPassword").value="";$("authModal").classList.remove("hidden");}
+$("authOpen").addEventListener("click",openAuth);$("profileOpen").addEventListener("click",()=>nav("profile"));$("logoutBtn").addEventListener("click",async()=>{if(supabaseClient)await supabaseClient.auth.signOut();current=null;if(gmRealtimeChannel){supabaseClient.removeChannel(gmRealtimeChannel);gmRealtimeChannel=null;}updateHeader();render();toast("Tu es déconnecté.");});
+document.querySelectorAll("[data-close-modal]").forEach(b=>b.addEventListener("click",()=>$("authModal").classList.add("hidden")));
+$("authSwitch").addEventListener("click",()=>{authMode=authMode==="signup"?"signin":"signup";$("authTitle").textContent=authMode==="signup"?"Bienvenue sur GAME MATE.":"Content de te revoir.";$("authSubmit").textContent=authMode==="signup"?"Créer mon compte":"Se connecter";$("authUsernameWrap").classList.toggle("hidden",authMode==="signin");$("authPassword").setAttribute("autocomplete",authMode==="signup"?"new-password":"current-password");$("authSwitch").textContent=authMode==="signup"?"Déjà un compte ? Se connecter":"Nouveau sur GAME MATE ? Créer un compte";$("authMessage").textContent="";});
+$("authForm").addEventListener("submit",async e=>{
+ e.preventDefault();const loginId=normalizeLoginId($("authId").value),password=$("authPassword").value,name=$("authUsername").value.trim();
+ if(!supabaseClient){$("authMessage").textContent="Connexion au service indisponible. Vérifie la configuration Supabase.";return;}
+ if(!validLoginId(loginId)){$("authMessage").textContent="Ton ID doit contenir 3 à 20 caractères : lettres, chiffres, point, tiret ou underscore.";return;}
+ if(password.length<8){$("authMessage").textContent="Le mot de passe doit contenir au moins 8 caractères.";return;}
+ const email=authEmailFromId(loginId);$("authSubmit").disabled=true;$("authSubmit").textContent="Connexion…";$("authMessage").textContent="";
+ try{
+  if(authMode==="signup"){
+   if(name.length<2){$("authMessage").textContent="Choisis un pseudo d’au moins 2 caractères.";return;}
+   const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username:name,login_id:loginId}}});
+   if(error)throw error;
+   if(!data.session){$("authMessage").textContent="Compte créé. Pour activer la connexion par ID sans email, désactive la confirmation d’adresse email dans Supabase > Authentication > Providers > Email, puis reconnecte-toi.";return;}
+   await loadAuthenticatedUser(data.user,loginId);toast("Compte GAME MATE créé !");
+  }else{
+   const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   await loadAuthenticatedUser(data.user,loginId);if(me()?.banned){await supabaseClient.auth.signOut();current=null;updateHeader();$("authMessage").textContent="Ce compte est suspendu. Contacte l’équipe GAME MATE.";return;}
+   toast("Bienvenue "+(me()?.name||loginId)+" !");
+  }
+  $("authModal").classList.add("hidden");
+ }catch(err){console.error(err);const msg=String(err?.message||"");$("authMessage").textContent=/already registered|already exists/i.test(msg)?"Cet ID existe déjà.":/Invalid login credentials/i.test(msg)?"ID ou mot de passe incorrect.":msg||"Une erreur est survenue.";}
+ finally{$("authSubmit").disabled=false;$("authSubmit").textContent=authMode==="signup"?"Créer mon compte":"Se connecter";}
+});
+function need(){if(!me()){openAuth();toast("Connecte-toi pour utiliser cette fonction.");return false;}return true;}
+function playerCard(p){return `<article class="player-card"><div class="player-banner"><div class="avatar">${esc(p.name[0].toUpperCase())}</div><span class="tag">Niv. ${level(p.totalXp)}</span></div><div class="player-info"><h3>${esc(p.name)}</h3><div class="tag-row">${[p.game,p.platform,p.style].filter(Boolean).map(x=>`<span class="tag">${esc(x)}</span>`).join("")}</div><p class="muted">${esc(p.bio||"Pas encore de bio.")}</p><div class="card-actions"><button class="small-btn" data-add="${p.id}">＋ Ajouter</button><button class="small-btn" data-report="${p.id}">Signaler</button></div></div></article>`;}
+function renderPlayers(){const u=me();const q=($("matchGame").value||"").toLowerCase(),plat=$("matchPlatform").value,style=$("matchStyle").value;let list=users.filter(p=>!p.banned&&p.id!==u?.id&&(!q||p.game.toLowerCase().includes(q))&&(!plat||p.platform===plat)&&(!style||p.style===style));$("matchCount").textContent=list.length+" joueur(s) trouvé(s)";$("matchResults").innerHTML=list.map(playerCard).join("")||'<div class="empty-state">Aucun joueur trouvé. Essaie d’autres filtres.</div>';document.querySelectorAll("#discoverPlayers").forEach(el=>el.innerHTML=users.filter(p=>!p.banned&&p.id!==u?.id).slice(0,3).map(playerCard).join("")||'<div class="empty-state">Crée ton compte pour découvrir des joueurs.</div>');}
+$("matchSearch").addEventListener("click",renderPlayers);
+document.addEventListener("click",e=>{const add=e.target.closest("[data-add]");if(add){if(!need())return;const id=add.dataset.add;if(friendships.some(f=>f.from===current&&f.to===id)){toast("Demande déjà envoyée.");return;}if(friendships.some(f=>f.status==="accepted"&&((f.from===current&&f.to===id)||(f.to===current&&f.from===id)))){toast("Vous êtes déjà amis.");return;}friendships.push({from:current,to:id,status:"pending",createdAt:new Date().toISOString()});notifications.push({id:"n"+Date.now(),user:id,text:me().name+" t’a envoyé une demande d’ami.",read:false,kind:"friend_request"});save();renderNotificationBadges();toast("Demande d’ami envoyée ! Une notification sera affichée sur le compte du destinataire.");render();}const rep=e.target.closest("[data-report]");if(rep){if(!need())return;$("reportTarget").value=rep.dataset.report;$("reportReason").value="";$("reportDetails").value="";$("reportModal").classList.remove("hidden");}const accept=e.target.closest("[data-accept]");if(accept){const f=friendships.find(x=>x.to===current&&x.from===accept.dataset.accept);if(f){f.status="accepted";notifications.push({user:f.from,text:me().name+" a accepté ta demande.",read:false});gainXp(me(),5);checkFriendBadge(me());save();renderNotificationBadges();render();}}const decline=e.target.closest("[data-decline]");if(decline){friendships=friendships.filter(f=>!(f.to===current&&f.from===decline.dataset.decline));save();renderNotificationBadges();render();}const leaveClan=e.target.closest("[data-leave-clan]");if(leaveClan){if(!need())return;const clan=clans.find(c=>c.id===leaveClan.dataset.leaveClan);if(!clan)return;if(clan.owner===me().name){toast("En tant que chef, tu dois dissoudre le clan.");return;}if(!Array.isArray(clan.members)||!clan.members.includes(current)){toast("Tu n'es pas membre de ce clan.");return;}if(!confirm("Quitter le clan « "+clan.name+" » ? Tu n'auras plus accès à sa discussion."))return;clan.members=clan.members.filter(id=>id!==current);if(activeChat?.type==="clan"&&activeChat.id===clan.id)activeChat=null;audit(me().name+" a quitté le clan "+clan.name);save();render();toast("Tu as quitté le clan.");}
+const dissolveClan=e.target.closest("[data-dissolve-clan]");if(dissolveClan){if(!need())return;const clan=clans.find(c=>c.id===dissolveClan.dataset.dissolveClan);if(!clan)return;if(clan.owner!==me().name){toast("Seul le chef peut dissoudre ce clan.");return;}if(!confirm("Dissoudre définitivement le clan « "+clan.name+" » ? Tous ses membres perdront l'accès et la discussion du clan sera supprimée."))return;clans=clans.filter(c=>c.id!==clan.id);chatMessages=chatMessages.filter(m=>!(m.type==="clan"&&m.threadId===clan.id));notifications=notifications.filter(n=>!(n.kind==="clan_dissolved"&&n.clanId===clan.id));if(activeChat?.type==="clan"&&activeChat.id===clan.id)activeChat=null;audit(me().name+" a dissous le clan "+clan.name);save();render();toast("Clan dissous.");}
+const join=e.target.closest("[data-join]");if(join){if(!need())return;const clan=clans.find(c=>c.id===join.dataset.join);if(!clan)return;clan.members=Array.isArray(clan.members)?clan.members:[];if(clan.owner===me().name||clan.members.includes(current)){toast("Tu fais déjà partie de ce clan.");return;}clan.members.push(current);awardBadge(me(),"recrue");toast("Tu as rejoint "+clan.name+" ! +2 XP");gainXp(me(),2);save();render();}const buyBadge=e.target.closest("[data-buy-badge]");if(buyBadge){if(!need())return;const u=me(),id=buyBadge.dataset.buyBadge,b=badgeCatalog.find(x=>x.id===id);if(!b)return;if(b.free){toast("Ce badge se débloque automatiquement en réalisant l’objectif.");return;}u.ownedBadges=Array.isArray(u.ownedBadges)?u.ownedBadges:[];if(u.ownedBadges.includes(id)){toast("Tu possèdes déjà ce badge.");return;}if(u.xp<b.cost){toast("Pas assez de points XP.");return;}u.xp-=b.cost;u.ownedBadges.push(id);audit("Badge acheté : "+b.name);save();toast("Badge "+b.name+" acheté ! Va dans ton profil pour l’afficher.");render();}const customBuy=e.target.closest("[data-buy-custom]");if(customBuy){if(!need())return;const item=customShopItems.find(x=>x.id===customBuy.dataset.buyCustom),u=me();if(!item||!u)return;const owned=item.type==="badge"?(u.ownedBadges||[]).includes(item.id):(u.ownedThemes||[]).includes(item.themeId);if(owned){toast("Tu possèdes déjà cet article.");return;}if(!item.free&&u.xp<item.cost){toast("Pas assez de points XP.");return;}if(!item.free)u.xp-=item.cost;if(item.type==="badge"){u.ownedBadges=Array.isArray(u.ownedBadges)?u.ownedBadges:[];u.ownedBadges.push(item.id);}else{u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];if(!u.ownedThemes.includes(item.themeId))u.ownedThemes.push(item.themeId);u.activeTheme=item.themeId;}audit("Article boutique obtenu : "+item.name);save();applyMemberTheme();render();toast(item.name+" ajouté à ta collection !");}const editShop=e.target.closest("[data-edit-shop]");if(editShop){if(!["admin","moderator"].includes(me()?.role))return;const item=customShopItems.find(x=>x.id===editShop.dataset.editShop);if(!item)return;const pricing=prompt("Tarification : tape gratuit ou payant",item.free?"gratuit":"payant");if(pricing===null)return;item.free=/^gratuit$/i.test(pricing.trim());if(!item.free){const price=prompt("Nouveau prix en XP",String(item.cost||0));if(price===null)return;const parsed=Number(price);if(!Number.isFinite(parsed)||parsed<1){toast("Le prix doit être d’au moins 1 XP.");return;}item.cost=Math.floor(parsed);}else item.cost=0;if(item.type==="badge"){const b=badgeCatalog.find(x=>x.id===item.id);if(b){b.free=item.free;b.cost=item.cost;}}audit("Prix modifié pour "+item.name+" : "+(item.free?"gratuit":item.cost+" XP"));save();render();toast("Tarif mis à jour.");}const deleteShop=e.target.closest("[data-delete-shop]");if(deleteShop&&["admin","moderator"].includes(me()?.role)){const item=customShopItems.find(x=>x.id===deleteShop.dataset.deleteShop);if(item){if(!confirm("Supprimer "+item.name+" de la boutique ?"))return;const idx=customShopItems.findIndex(x=>x.id===item.id);customShopItems.splice(idx,1);if(item.type==="badge")badgeCatalog=badgeCatalog.filter(x=>x.id!==item.id);audit("Article boutique supprimé : "+item.name);save();render();}}const toggleBadge=e.target.closest("[data-toggle-badge]");if(toggleBadge){if(!need())return;const u=me(),id=toggleBadge.dataset.toggleBadge;u.ownedBadges=Array.isArray(u.ownedBadges)?u.ownedBadges:[];u.selectedBadges=Array.isArray(u.selectedBadges)?u.selectedBadges:[];if(!u.ownedBadges.includes(id))return;if(u.selectedBadges.includes(id)){u.selectedBadges=u.selectedBadges.filter(x=>x!==id);}else{if(u.selectedBadges.length>=6){toast("Tu peux afficher 6 badges maximum.");return;}u.selectedBadges.push(id);}save();render();}const buy=e.target.closest("[data-buy]");if(buy){if(!need())return;const cost=Number(buy.dataset.cost);if(me().xp<cost){toast("Pas assez de points XP.");return;}me().xp-=cost;toast("Objet acheté (démo) !");save();render();}const resolve=e.target.closest("[data-resolve]");if(resolve){const r=reports.find(x=>x.id===resolve.dataset.resolve);if(r){r.status="resolved";r.closedBy=me()?.name;audit("Signalement traité : "+r.reason);save();render();}}
+const saveNote=e.target.closest("[data-save-note]");if(saveNote){if(!["admin","moderator"].includes(me()?.role))return;const target=users.find(x=>x.id===saveNote.dataset.saveNote),field=document.querySelector(`[data-moderation-note="${saveNote.dataset.saveNote}"]`);if(target&&field){target.moderationNote=field.value.trim();audit("Note de modération mise à jour pour "+target.name);save();renderAdmin();toast("Note interne enregistrée.");}}const ban=e.target.closest("[data-ban-user]");if(ban){if(!["admin","moderator"].includes(me()?.role))return;const target=users.find(x=>x.id===ban.dataset.banUser);if(target&&target.role!=="admin"){target.banned=!target.banned;audit((target.banned?"Suspension de ":"Fin de suspension de ")+target.name);save();render();toast(target.banned?"Compte suspendu.":"Compte réactivé.");}}
+const role=e.target.closest("[data-role-user]");if(role){if(me()?.role!=="admin")return;const target=users.find(x=>x.id===role.dataset.roleUser);if(target&&target.id!==current&&target.role!=="admin"){target.role=target.role==="moderator"?"member":"moderator";audit("Rôle de "+target.name+" modifié : "+target.role);save();render();toast("Rôle mis à jour.");}}
+const removeClan=e.target.closest("[data-remove-clan]");if(removeClan&&me()?.role==="admin"){const c=clans.find(x=>x.id===removeClan.dataset.removeClan);clans=clans.filter(x=>x.id!==removeClan.dataset.removeClan);audit("Clan supprimé : "+(c?.name||""));save();render();toast("Clan supprimé.");}
+const removeAnnouncement=e.target.closest("[data-remove-announcement]");if(removeAnnouncement&&me()?.role==="admin"){announcements=announcements.filter(x=>x.id!==removeAnnouncement.dataset.removeAnnouncement);audit("Annonce supprimée");save();render();}
+const removeGame=e.target.closest("[data-remove-game]");if(removeGame&&me()?.role==="admin"){customGames=customGames.filter(x=>x!==removeGame.dataset.removeGame);audit("Jeu retiré du catalogue : "+removeGame.dataset.removeGame);save();render();}
+});
+$("adminUserSearch").addEventListener("input",()=>renderAdmin());
+// Navigation de boutique : délégation globale pour que les onglets restent actifs
+// même après les re-rendus de la page ou du contenu de la boutique.
+document.addEventListener("click",e=>{
+ const tab=e.target.closest("button[data-shop-tab]");
+ if(!tab)return;
+ e.preventDefault();
+ e.stopPropagation();
+ setShopCategory(tab.dataset.shopTab);
+},true);
+$("shopItemType").addEventListener("change",()=>$("shopThemeWrap").classList.toggle("hidden",$("shopItemType").value!=="theme"));
+$("shopItemPricing").addEventListener("change",()=>$("shopPriceWrap").classList.toggle("hidden",$("shopItemPricing").value!=="paid"));
+$("adminShopForm").addEventListener("submit",e=>{e.preventDefault();if(!["admin","moderator"].includes(me()?.role)){toast("Accès réservé à l’équipe.");return;}const type=$("shopItemType").value,name=$("shopItemName").value.trim(),icon=$("shopItemIcon").value.trim()|| (type==="badge"?"🏅":"🎨"),desc=$("shopItemDesc").value.trim(),free=$("shopItemPricing").value==="free",cost=free?0:Math.floor(Number($("shopItemPrice").value));if(!name){toast("Donne un nom à l’article.");return;}if(!free&&(!Number.isFinite(cost)||cost<1)){toast("Un article payant doit avoir un prix d’au moins 1 XP.");return;}const id="shop_"+Date.now();const item={id,type,name,icon,desc,cost,free,themeId:type==="theme"?$("shopThemeId").value:null,custom:true};customShopItems.push(item);if(type==="badge")badgeCatalog.push(item);audit((free?"Article gratuit ajouté : ":"Article payant ajouté : ")+name+(free?"":" ("+cost+" XP)"));save();e.target.reset();$("shopItemIcon").value=type==="badge"?"🏅":"🎨";$("shopThemeWrap").classList.toggle("hidden",type!=="theme");$("shopPriceWrap").classList.remove("hidden");render();toast("Article ajouté à la boutique !");});
+$("adminAnnouncementForm").addEventListener("submit",e=>{e.preventDefault();if(me()?.role!=="admin"){toast("Réservé à l’administrateur.");return;}const title=$("announcementTitle").value.trim(),message=$("announcementText").value.trim();if(!title||!message)return;announcements.unshift({id:"an"+Date.now(),title,message,by:me().name,at:new Date().toLocaleString("fr-FR")});audit("Annonce publiée : "+title);save();e.target.reset();render();toast("Annonce publiée dans le tableau admin.");});
+$("adminGameForm").addEventListener("submit",e=>{e.preventDefault();if(me()?.role!=="admin"){toast("Réservé à l’administrateur.");return;}const game=$("adminGameName").value.trim();if(!game)return;if(customGames.some(x=>x.toLowerCase()===game.toLowerCase())){toast("Ce jeu est déjà dans le catalogue.");return;}customGames.push(game);audit("Jeu ajouté au catalogue : "+game);save();e.target.reset();render();toast("Jeu ajouté.");});
+let currentShopCategory="badges";
+function setShopCategory(category){currentShopCategory=["badges","themes","extras"].includes(category)?category:"badges";document.querySelectorAll("[data-shop-tab]").forEach(b=>b.classList.toggle("active",b.dataset.shopTab===currentShopCategory));renderShop();}
+function renderShop(){
+ const u=me();
+ const balance=$("shopBalance");if(balance)balance.textContent=u?u.xp:"—";
+ const root=$("shopItems");if(!root)return;
+ if(!u){root.innerHTML='<div class="empty-state">Connecte-toi pour accéder à la boutique.</div>';return;}
+ const badgeCards=badgeCatalog.filter(b=>!b.custom&&!b.adminOnly).map(b=>{const owned=(u.ownedBadges||[]).includes(b.id);return `<article class="shop-card"><div class="badge-preview">${esc(b.icon)}</div><h3>Badge ${esc(b.name)}</h3><p class="muted">${esc(b.desc)}</p><div class="card-actions"><span class="tag">${b.free?"GRATUIT · OBJECTIF":b.cost+" XP"}</span><button class="small-btn" data-buy-badge="${b.id}" ${owned||b.free?"disabled":""}>${owned?"Débloqué":b.free?"À débloquer":"Acheter"}</button></div></article>`;}).join("");
+ const customBadges=customShopItems.filter(i=>i.type==="badge").map(item=>{const owned=(u.ownedBadges||[]).includes(item.id);return `<article class="shop-card"><div class="badge-preview">${esc(item.icon||"🏅")}</div><span class="tag">BADGE SPÉCIAL</span><h3>${esc(item.name)}</h3><p class="muted">${esc(item.desc||"")}</p><div class="card-actions"><span class="tag">${item.free?"GRATUIT":item.cost+" XP"}</span><button class="small-btn" data-buy-custom="${item.id}" ${owned?"disabled":""}>${owned?"Obtenu":item.free?"Obtenir gratuitement":"Acheter"}</button></div></article>`;}).join("");
+ const themeCards=`<article class="shop-card"><div class="gm-theme-card-art"><span>THÈME COMPLET · GRATUIT</span><strong>NEON CYBER</strong></div><h3>Thème complet NEON CYBER</h3><p class="muted">Ambiance futuriste violet et bleu électrique sur les menus, boutons, onglets et panneaux.</p><div class="tag-row"><span class="tag">THÈME COMPLET</span><span class="tag">GRATUIT</span></div><div class="card-actions"><button class="small-btn" data-preview-cyber>Prévisualiser</button><button class="small-btn" data-equip-cyber>${u.activeTheme===CYBER_THEME_ID?"Équipé ✓":(u.ownedThemes||[]).includes(CYBER_THEME_ID)?"Équiper":"Obtenir gratuitement"}</button></div></article><article class="shop-card"><div class="gm-void-card-art"><span>THÈME COMPLET · GRATUIT</span><strong>VOID OCEAN</strong></div><h3>Thème complet VOID OCEAN</h3><p class="muted">Décor sous-marin animé, bulles, coraux lumineux et menus néon turquoise/corail.</p><div class="tag-row"><span class="tag">THÈME COMPLET</span><span class="tag">GRATUIT</span></div><div class="card-actions"><button class="small-btn" data-preview-void>Prévisualiser</button><button class="small-btn" data-equip-void>${u.activeTheme===VOID_THEME_ID?"Équipé ✓":(u.ownedThemes||[]).includes(VOID_THEME_ID)?"Équiper":"Obtenir gratuitement"}</button></div></article>`;
+ const winterOwned=(u.ownedThemes||[]).includes(WINTER_THEME_ID);
+ const winterCard=(winterEventOpen()?`<article class="shop-card"><div style="min-height:125px;border-radius:10px;display:grid;place-items:center;text-align:center;background:radial-gradient(circle at 50% 35%,#247f9a,#0a1c30 70%);border:1px solid #42cde0;color:#e8fbff;font-size:30px;text-shadow:0 0 18px #68eaff">❄️ 🎮 🎄<small style="display:block;font-size:10px;letter-spacing:2px">WINTER RAID</small></div><h3>🎄 WINTER RAID — ÉDITION NOËL</h3><p class="muted">Un univers gaming hivernal : neige lumineuse, néons glacés et ambiance de fête.</p><div class="tag-row"><span class="tag">ÉVÉNEMENT LIMITÉ</span><span class="tag">GRATUIT</span></div><div class="card-actions"><button class="small-btn" data-get-winter ${winterOwned?"disabled":""}>${winterOwned?"Obtenu ✓":"Obtenir gratuitement"}</button><button class="small-btn" data-equip-winter ${winterOwned?"":"disabled"}>${u.activeTheme===WINTER_THEME_ID?"Équipé ✓":"Équiper"}</button></div></article>`:"");
+ const customThemes=customShopItems.filter(i=>i.type==="theme").map(item=>{const owned=(u.ownedThemes||[]).includes(item.themeId);return `<article class="shop-card"><div class="shop-icon">${esc(item.icon||"🎨")}</div><span class="tag">THÈME PERSONNALISÉ</span><h3>${esc(item.name)}</h3><p class="muted">${esc(item.desc||"")}</p><div class="card-actions"><span class="tag">${item.free?"GRATUIT":item.cost+" XP"}</span><button class="small-btn" data-buy-custom="${item.id}" ${owned?"disabled":""}>${owned?"Obtenu":item.free?"Obtenir gratuitement":"Acheter"}</button></div></article>`;}).join("");
+ const extras=[["Cadre Élite","Cadre de profil exclusif",250,"💠"],["Pack Neon","Style néon rouge",150,"⚡"]].map(i=>`<article class="shop-card"><div class="shop-icon">${i[3]}</div><h3>${i[0]}</h3><p class="muted">${i[1]}</p><div class="card-actions"><span class="tag">${i[2]} XP</span><button class="small-btn" data-buy data-cost="${i[2]}">Acheter</button></div></article>`).join("");
+ root.innerHTML=currentShopCategory==="badges"?(badgeCards+customBadges||'<div class="empty-state">Aucun badge disponible.</div>'):currentShopCategory==="themes"?(themeCards+winterCard+customThemes):extras;
+}
+function renderAdmin(){
+ const u=me();if(!u||!["admin","moderator"].includes(u.role))return;
+ const isAdmin=u.role==="admin";
+ const openReports=reports.filter(r=>r.status==="open");
+ $("adminStats").innerHTML=`<div class="list-row"><span>Membres inscrits</span><b>${users.length}</b></div><div class="list-row"><span>Joueurs actifs (non suspendus)</span><b>${users.filter(x=>!x.banned).length}</b></div><div class="list-row"><span>Comptes suspendus</span><b>${users.filter(x=>x.banned).length}</b></div><div class="list-row"><span>Clans</span><b>${clans.length}</b></div><div class="list-row"><span>Clips enregistrés</span><b>${clips.length}</b></div><div class="list-row"><span>Signalements ouverts</span><b>${openReports.length}</b></div><div class="list-row"><span>Ton rôle</span><b>${isAdmin?"Administrateur":"Modérateur"}</b></div>`;
+ $("adminReports").innerHTML=openReports.map(r=>{const reporter=users.find(x=>x.id===r.by),target=users.find(x=>x.id===r.target);return `<div class="list-row" style="align-items:flex-start"><div class="list-main"><b>${esc(r.reason||"Motif non précisé")}</b><small>Par ${esc(reporter?.name||"Inconnu")} · Joueur signalé : ${esc(target?.name||"Inconnu")} · ${r.createdAt?new Date(r.createdAt).toLocaleString("fr-FR"):"Date non disponible"}</small>${r.details?`<p class="muted" style="white-space:pre-wrap;margin:8px 0 0">${esc(r.details)}</p>`:""}</div><button class="small-btn" data-resolve="${r.id}">Traiter / clôturer</button></div>`}).join("")||'<div class="empty-state">Aucun signalement en attente.</div>';
+ const query=($("adminUserSearch")?.value||"").toLowerCase();
+ $("adminUsers").innerHTML=users.filter(x=>(x.name+" "+x.email).toLowerCase().includes(query)).map(x=>{const userReports=reports.filter(r=>r.target===x.id);const note=esc(x.moderationNote||"");return `<details class="list-row" style="display:block"><summary style="cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none"><span><b>${esc(x.name)} ${x.banned?'<span class="tag">Suspendu</span>':""}</b><small style="display:block;color:var(--muted)">${esc(x.email)} · ${esc(x.role||"member")} · ${x.xp||0} XP · ${userReports.length} signalement(s)</small></span><span class="tag">Voir le dossier ▾</span></summary><div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><p class="muted">Compte créé : ${x.createdAt?new Date(x.createdAt).toLocaleString("fr-FR"):"Date inconnue (ancien compte)"}</p><p><b>Signalements reçus</b></p>${userReports.length?userReports.map(r=>`<div class="list-row" style="margin:6px 0"><div class="list-main"><b>${esc(r.reason||"Motif non précisé")}</b><small>${esc(r.status)} · ${esc(users.find(v=>v.id===r.by)?.name||"Compte inconnu")}${r.details?" · "+esc(r.details):""}</small></div></div>`).join(""):'<p class="muted">Aucun signalement enregistré.</p>'}<label>Note interne de modération<textarea class="field" rows="2" data-moderation-note="${x.id}" placeholder="Contexte, avertissements, décision…">${note}</textarea></label><button class="small-btn" data-save-note="${x.id}" style="margin-top:7px">Enregistrer la note</button><div class="card-actions" style="flex-wrap:wrap"><button class="small-btn" data-ban-user="${x.id}" ${x.role==="admin"?"disabled":""}>${x.banned?"Réactiver le compte":"Suspendre le compte"}</button>${isAdmin&&x.id!==current&&x.role!=="admin"?`<button class="small-btn" data-role-user="${x.id}">${x.role==="moderator"?"Retirer modo":"Nommer modo"}</button>`:""}</div></div></details>`}).join("")||'<div class="empty-state">Aucun membre trouvé.</div>';
+ $("adminAnnouncements").innerHTML=announcements.map(a=>`<div class="list-row"><div class="list-main"><b>${esc(a.title)}</b><small>${esc(a.message)} · ${esc(a.by)} · ${esc(a.at)}</small></div>${isAdmin?`<button class="small-btn" data-remove-announcement="${a.id}">Supprimer</button>`:""}</div>`).join("")||'<p class="muted">Aucune annonce publiée.</p>';
+ $("adminGames").innerHTML=customGames.map(g=>`<div class="list-row"><b>${esc(g)}</b>${isAdmin?`<button class="small-btn" data-remove-game="${esc(g)}">Retirer</button>`:""}</div>`).join("");
+ $("adminShopCatalog").innerHTML=customShopItems.map(item=>`<div class="list-row"><div class="list-main"><b>${esc(item.icon||"")} ${esc(item.name)}</b><small>${item.type==="badge"?"Badge spécial":"Thème"} · ${item.free?"Gratuit":item.cost+" XP"}${item.type==="theme"?" · "+esc(item.themeId):""}</small></div><button class="small-btn" data-edit-shop="${item.id}">Modifier le prix</button><button class="small-btn clan-danger" data-delete-shop="${item.id}">Supprimer</button></div>`).join("")||'<p class="muted">Aucun article personnalisé. Ajoute ton premier badge ou thème ci-dessus.</p>';
+ $("adminClans").innerHTML=clans.map(c=>`<div class="list-row"><div class="list-main"><b>${esc(c.name)}</b><small>${esc(c.game)} · Chef : ${esc(c.owner)}</small></div>${isAdmin?`<button class="small-btn" data-remove-clan="${c.id}">Supprimer</button>`:"<span class='tag'>Lecture seule</span>"}</div>`).join("")||'<p class="muted">Aucun clan.</p>';
+ $("adminAudit").innerHTML=auditLog.slice(0,12).map(a=>`<div class="list-row"><div class="list-main"><b>${esc(a.message)}</b><small>${esc(a.by)} · ${esc(a.at)}</small></div></div>`).join("")||'<p class="muted">Aucune action enregistrée pour le moment.</p>';
+}
+$("profileForm").addEventListener("submit",e=>{e.preventDefault();if(!need())return;const u=me();u.name=$("profileUsername").value.trim();u.bio=$("profileBio").value.trim();u.game=$("profileGame").value.trim();u.platform=$("profilePlatform").value;u.style=$("profileStyle").value;u.mic=$("profileMic").value==="true";save();updateHeader();toast("Profil enregistré !");render();});
+$("clanForm").addEventListener("submit",e=>{e.preventDefault();if(!need())return;clans.unshift({id:"c"+Date.now(),name:$("clanName").value.trim(),game:$("clanGame").value.trim(),platform:$("clanPlatform").value,owner:me().name,desc:"Clan créé par "+me().name,members:[current]});awardBadge(me(),"fondateur");gainXp(me(),15);save();e.target.reset();toast("Clan créé ! +15 XP");render();});
+$("libraryForm").addEventListener("submit",e=>{e.preventDefault();if(!need())return;library.push({user:current,game:$("libraryGame").value.trim(),platform:$("libraryPlatform").value});gainXp(me(),2);save();e.target.reset();toast("Jeu ajouté à ta bibliothèque.");render();});
+$("clipForm").addEventListener("submit",e=>{e.preventDefault();if(!need())return;const f=$("clipFile").files[0];if(!f){toast("Choisis une vidéo.");return;}if(f.size>50*1024*1024){toast("50 Mo maximum.");return;}clips.unshift({id:"v"+Date.now(),user:me().name,title:$("clipTitle").value,game:$("clipGame").value,file:f.name,url:URL.createObjectURL(f)});gainXp(me(),10);save();e.target.reset();toast("Clip ajouté à cette session (+10 XP).");render();});
+$("markRead").addEventListener("click",()=>{if(!need())return;notifications.filter(n=>n.user===current).forEach(n=>n.read=true);save();render();});
+function refreshGameSelects(){
+ const options=[...new Set([...customGames,"Autre (non listé)"])].map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join("");
+ ["profileGame","clanGame"].forEach(id=>{const el=$(id);if(!el)return;const previous=el.value;el.innerHTML='<option value="">Choisir un jeu…</option>'+options;if(previous&&[...el.options].some(o=>o.value===previous))el.value=previous;});
+}
+function render(){
+ refreshGameSelects();
+ applyMemberTheme();updateHeader();const u=me();$("statPlayers").textContent=users.length;$("statClans").textContent=clans.length;$("statClips").textContent=clips.length;
+ renderPlayers();
+ const themeSelect=$("memberThemeSelect");
+ if(themeSelect){const owned=u?.ownedThemes||[];themeSelect.innerHTML='<option value="">Fond de base GAME MATE</option>'+(owned.includes(CYBER_THEME_ID)?'<option value="neon-cyber">NEON CYBER</option>':"")+(owned.includes(VOID_THEME_ID)?'<option value="void-ocean">VOID OCEAN</option>':"")+(owned.includes(WINTER_THEME_ID)?'<option value="winter-raid">WINTER RAID — ÉDITION NOËL</option>':"");themeSelect.value=u?.activeTheme||"";themeSelect.disabled=!u;}
+ if(u){if(u.role==="admin"){u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];if(!u.ownedThemes.includes(WINTER_THEME_ID)){u.ownedThemes.push(WINTER_THEME_ID);save();}}checkFriendBadge(u);checkProgressBadges(u);$("profileUsername").value=u.name;$("profileBio").value=u.bio||"";$("profileGame").value=u.game||"";$("profilePlatform").value=u.platform||"PC";$("profileStyle").value=u.style||"Chill";$("profileMic").value=String(u.mic!==false);$("profilePreviewName").textContent=u.name;$("profileAvatarPreview").textContent=u.name[0].toUpperCase();$("profilePreviewBio").textContent=u.bio||"Ajoute une bio pour te présenter.";$("profilePreviewTags").innerHTML=[u.game,u.platform,u.style].filter(Boolean).map(t=>`<span class="tag">${esc(t)}</span>`).join("");$("profileLevel").textContent=level(u.totalXp);$("profileXp").textContent=(u.xp||0)+" XP disponibles";
+  u.ownedBadges=Array.isArray(u.ownedBadges)?u.ownedBadges:[];u.selectedBadges=Array.isArray(u.selectedBadges)?u.selectedBadges.slice(0,6):[];
+  if(u.role==="admin"&&!u.ownedBadges.includes("administrateur")){u.ownedBadges.push("administrateur");if(u.selectedBadges.length<6)u.selectedBadges.push("administrateur");save();}
+  const selected=u.selectedBadges.map(id=>badgeCatalog.find(b=>b.id===id)).filter(Boolean);
+  $("profilePreviewTags").nextElementSibling?.classList.contains("profile-badges") && $("profilePreviewTags").nextElementSibling.remove();
+  $("profilePreviewTags").insertAdjacentHTML("afterend",`<div class="profile-badges">${selected.map(b=>`<span class="gm-profile-badge" title="${esc(b.name)}">${b.icon} ${esc(b.name)}</span>`).join("")}</div>`);
+  $("badgeCount").textContent=u.selectedBadges.length+" / 6";
+  $("badgeInventory").innerHTML=u.ownedBadges.map(id=>badgeCatalog.find(b=>b.id===id)).filter(Boolean).map(b=>{const on=u.selectedBadges.includes(b.id);return `<button type="button" class="gm-profile-badge ${on?"selected":""}" data-toggle-badge="${b.id}" title="${on?"Retirer du profil":"Afficher sur le profil"}">${b.icon} ${esc(b.name)} ${on?"✓":"＋"}</button>`}).join("")||'<span class="muted">Tu n’as pas encore de badge. Visite la boutique !</span>';
+ }
+ const accepted=friendships.filter(f=>f.status==="accepted"&&(f.from===current||f.to===current));$("friendsList").innerHTML=accepted.map(f=>{const p=users.find(x=>x.id===(f.from===current?f.to:f.from));return `<div class="list-row"><div class="list-main"><b>${esc(p?.name||"Joueur")}</b><small>Ami GAME MATE</small></div><button class="small-btn" data-open-dm="${esc(dmKey(current,p?.id||""))}">💬 Message</button><span class="tag">Ami</span></div>`}).join("")||'<div class="empty-state">Aucun ami pour le moment. Va dans Matchmaking !</div>';
+ const incoming=friendships.filter(f=>f.to===current&&f.status==="pending");$("friendRequests").innerHTML=incoming.map(f=>{const p=users.find(x=>x.id===f.from);return `<div class="list-row"><div class="list-main"><b>${esc(p?.name||"Joueur")}</b><small>Demande d’ami</small></div><button class="small-btn" data-accept="${f.from}">Accepter</button><button class="small-btn" data-decline="${f.from}">Refuser</button></div>`}).join("")||'<div class="empty-state">Aucune demande reçue.</div>';$("friendBadge").textContent=incoming.length;$("friendBadge").classList.toggle("hidden",!incoming.length);
+ const notes=notifications.filter(n=>n.user===current);$("notificationsList").innerHTML=notes.map(n=>`<div class="list-row"><div class="list-main"><b>${esc(n.text)}</b><small>${n.read?"Lu":"Nouveau"}</small></div></div>`).join("")||'<div class="empty-state">Aucune notification.</div>';renderNotificationBadges();
+ $("clanResults").innerHTML=clans.map(c=>{const isOwner=!!u&&c.owner===u.name;const isMember=!!u&&Array.isArray(c.members)&&c.members.includes(current);const alreadyIn=isOwner||isMember;return `<article class="clan-card"><div class="clan-icon">🛡️</div><h3>${esc(c.name)}</h3><div class="tag-row"><span class="tag">${esc(c.game)}</span><span class="tag">${esc(c.platform)}</span></div><p class="muted">${esc(c.desc)}</p><small class="muted">Chef : ${esc(c.owner)}</small><div class="card-actions">${alreadyIn?`<span class="tag">${isOwner?"👑 Ton clan · Chef":"✓ Déjà membre"}</span><button class="small-btn" data-open-clan="${c.id}">💬 Discussion</button>${isOwner?`<button class="small-btn clan-danger" data-dissolve-clan="${c.id}">Dissoudre</button>`:`<button class="small-btn clan-danger" data-leave-clan="${c.id}">Quitter</button>`}`:`<button class="small-btn" data-join="${c.id}">Rejoindre</button>`}</div></article>`}).join("");
+ const games=library.filter(g=>g.user===current);$("libraryList").innerHTML=games.map(g=>`<div class="library-card"><div class="clan-icon">🎮</div><b>${esc(g.game)}</b><p class="muted">${esc(g.platform)}</p></div>`).join("")||'<div class="empty-state">Ajoute ton premier jeu !</div>';renderChat();
+ const clipHTML=clips.map(c=>`<article class="clip-card">${c.url?`<video controls preload="metadata" src="${c.url}"></video>`:'<div class="clip-placeholder">🎬</div>'}<div class="clip-meta"><h3>${esc(c.title)}</h3><small class="muted">${esc(c.game)} • par ${esc(c.user)}</small></div></article>`).join("")||'<div class="empty-state">Pas encore de clip. Publie le premier !</div>';$("clipResults").innerHTML=clipHTML;$("discoverClips").innerHTML=clipHTML.slice(0,1500);
+ $("leaderboardList").innerHTML=[...users].sort((a,b)=>(b.totalXp||0)-(a.totalXp||0)).map((p,i)=>`<div class="list-row"><div class="list-main"><b>#${i+1} · ${esc(p.name)}</b><small>${esc(p.game||"Joueur polyvalent")} • Niveau ${level(p.totalXp)}</small></div><b>${p.totalXp||0} XP gagnées</b></div>`).join("");
+ renderShop();
+ if(u?.role==="admin"||u?.role==="moderator") renderAdmin();
+ else {$("adminStats").textContent="Accès réservé à l’équipe de modération.";$("adminReports").textContent="Aucun accès.";$("adminUsers").innerHTML="";}
+}
+document.addEventListener("click",e=>{
+ const getWinter=e.target.closest("[data-get-winter]");
+ if(getWinter){if(!need())return;if(!winterEventOpen()){toast("WINTER RAID sera disponible du 1er décembre au 2 janvier.");return;}const u=me();u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];if(!u.ownedThemes.includes(WINTER_THEME_ID))u.ownedThemes.push(WINTER_THEME_ID);u.activeTheme=WINTER_THEME_ID;audit("Thème WINTER RAID obtenu gratuitement");save();applyMemberTheme();render();toast("WINTER RAID ajouté à ta collection !");return;}
+ const equipWinter=e.target.closest("[data-equip-winter]");
+ if(equipWinter){if(!need())return;const u=me();if(!(u.ownedThemes||[]).includes(WINTER_THEME_ID))return;u.activeTheme=WINTER_THEME_ID;save();applyMemberTheme();render();toast("WINTER RAID équipé !");return;}
+ const preview=e.target.closest("[data-preview-cyber]");
+ if(preview){previewCyberTheme();return;}
+ if(e.target.closest("[data-close-theme]")){closeCyberPreview();return;}
+ const equip=e.target.closest("[data-equip-cyber]");
+ if(equip){
+   if(!need())return;
+   const u=me();
+   u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];
+   if(!u.ownedThemes.includes(CYBER_THEME_ID)){previewCyberTheme();return;}
+   u.activeTheme=CYBER_THEME_ID;save();applyMemberTheme();render();toast("Thème NEON CYBER équipé.");return;
+ }
+ const previewVoid=e.target.closest("[data-preview-void]");
+ if(previewVoid){
+   document.body.classList.remove("gm-theme-cyber");
+   document.body.classList.add("gm-theme-void-ocean");
+   toast("Aperçu VOID OCEAN — temporaire.");
+   clearTimeout(window.gmVoidPreviewTimer);
+   window.gmVoidPreviewTimer=setTimeout(()=>applyMemberTheme(),9000);
+   return;
+ }
+ const equipVoid=e.target.closest("[data-equip-void]");
+ if(equipVoid){
+   if(!need())return;
+   const u=me();
+   u.ownedThemes=Array.isArray(u.ownedThemes)?u.ownedThemes:[];
+   if(!u.ownedThemes.includes(VOID_THEME_ID))u.ownedThemes.push(VOID_THEME_ID);
+   u.activeTheme=VOID_THEME_ID;
+   audit("Thème complet VOID OCEAN obtenu gratuitement et équipé");
+   save();applyMemberTheme();render();toast("VOID OCEAN ajouté gratuitement à ta collection et équipé !");return;
+ }
+});
+$("claimCyberTheme").addEventListener("click",claimCyberTheme);
+$("memberThemeSelect").addEventListener("change",e=>{if(!need())return;const u=me();const choice=e.target.value;if(choice && !(u.ownedThemes||[]).includes(choice)){toast("Ce thème ne fait pas partie de ta collection.");e.target.value=u.activeTheme||"";return;}u.activeTheme=choice||null;save();applyMemberTheme();toast(choice?"Thème appliqué !":"Fond de base rétabli !");});
+$("themePreviewModal").addEventListener("click",e=>{if(e.target.id==="themePreviewModal")closeCyberPreview();});
+$("authPassword").value="";$("backendStatus").textContent="Supabase • en attente de connexion";
+current=null;
+render();
+if(supabaseClient){supabaseClient.auth.getSession().then(async({data,error})=>{if(error)console.warn(error);if(data?.session?.user){const authUser=data.session.user;const loginId=String(authUser.email||"").split("@")[0];await loadAuthenticatedUser(authUser,loginId);}}).catch(err=>console.warn("Restauration session Supabase :",err));}
+})();
+</script>
+
+<style>
+.badge-manager{margin:8px 0 14px;padding:14px;border:1px solid var(--border,rgba(255,255,255,.12));border-radius:14px;background:rgba(255,255,255,.025)}
+.profile-badges{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.gm-profile-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);font-size:12px;font-weight:700}
+.gm-profile-badge.selected{border-color:#ef4444;background:rgba(239,68,68,.14)}
+.gm-profile-badge button{border:0;background:transparent;color:inherit;cursor:pointer;font:inherit;padding:0}
+.shop-card .badge-preview{font-size:34px;margin:4px 0 10px}
+.shop-tabs{position:relative;z-index:5;display:flex;gap:9px;flex-wrap:wrap;margin:0 0 16px;pointer-events:auto}.shop-tab{position:relative;z-index:6;pointer-events:auto;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 15px;border-radius:9px;font-weight:800;font-size:12px}.shop-tab.active{background:#3a1d25;border-color:var(--red);color:#fff;box-shadow:0 0 0 2px #ef34411c}.shop-card .tag{display:inline-flex;align-items:center}
+#gm-discord-invite {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 99999;
+  width: min(310px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 16px;
+  color: #fff;
+  background: linear-gradient(145deg, #5865F2, #404EED);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  font-family: inherit;
+  border: 1px solid rgba(255,255,255,.2);
+}
+#gm-discord-invite .gm-discord-top {
+  display:flex; align-items:center; gap:10px; margin-bottom:8px;
+}
+#gm-discord-invite .gm-discord-icon {
+  width:38px; height:38px; flex:0 0 38px;
+  display:grid; place-items:center; border-radius:12px;
+  background:rgba(255,255,255,.16); font-size:22px;
+}
+#gm-discord-invite strong { display:block; font-size:15px; }
+#gm-discord-invite p { margin:0 0 12px; font-size:13px; line-height:1.4; opacity:.94; }
+#gm-discord-invite a {
+  display:flex; justify-content:center; align-items:center; gap:8px;
+  width:100%; box-sizing:border-box; padding:10px 12px;
+  border-radius:10px; background:#fff; color:#404EED;
+  font-weight:800; font-size:14px; text-decoration:none;
+  transition:transform .15s ease, background .15s ease;
+}
+#gm-discord-invite a:hover { transform:translateY(-2px); background:#f0f1ff; }
+#gm-discord-close {
+  position:absolute; top:8px; right:9px; border:0; background:transparent;
+  color:#fff; opacity:.8; cursor:pointer; font-size:20px; line-height:1;
+}
+#gm-discord-close:hover { opacity:1; }
+@media (max-width:520px) {
+  #gm-discord-invite { right:12px; bottom:12px; width:min(290px, calc(100vw - 24px)); }
+}
+</style>
+<aside id="gm-discord-invite" aria-label="Invitation au serveur Discord">
+  <button id="gm-discord-close" type="button" aria-label="Fermer l’invitation">×</button>
+  <div class="gm-discord-top">
+    <div class="gm-discord-icon" aria-hidden="true">🎮</div>
+    <div><strong>Rejoins notre Discord !</strong><span style="font-size:11px;opacity:.85">La communauté GAME MATE</span></div>
+  </div>
+  <p>Envie de trouver des mates et de jouer avec la communauté ? Rejoins-nous sur Discord !</p>
+  <a href="https://discord.gg/f94wwKzs8W" target="_blank" rel="noopener noreferrer">
+    <span aria-hidden="true">💬</span> Rejoindre le serveur
+  </a>
+</aside>
+<script>
+(function () {
+  var invite = document.getElementById("gm-discord-invite");
+  var close = document.getElementById("gm-discord-close");
+  if (close && invite) close.addEventListener("click", function () {
+    invite.remove();
+  });
+})();
+</script>
+
+</body></html>
